@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Roboto } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/contexts/theme";
 import { cn } from "@/lib/utils";
 
 const robotoHeading = Roboto({ subsets: ["latin"], variable: "--font-heading" });
@@ -40,8 +41,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="flex min-h-full flex-col">
-        <Navbar />
-        <div className="flex flex-1 flex-col">{children}</div>
+        <ThemeProvider>
+          <Navbar />
+          <div className="flex flex-1 flex-col">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase } from "lucide-react";
+import { Briefcase, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 
 import SignOutButton from "@/components/auth/SignOutButton";
@@ -13,12 +13,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useTheme } from "@/contexts/theme";
 import { useSession } from "@/lib/auth/auth-client";
 
 import { Button } from "./ui/button";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const { toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm">
@@ -66,6 +68,18 @@ export default function Navbar() {
               </Button>
             </>
           )}
+          <Button
+            aria-label="Toggle color theme"
+            title="Toggle color theme"
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              toggleTheme();
+            }}
+          >
+            <Sun className="hidden dark:block" />
+            <Moon className="dark:hidden" />
+          </Button>
         </div>
       </Container>
     </header>
