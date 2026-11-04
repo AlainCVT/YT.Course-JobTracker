@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { type SubmitEvent, useRef, useState } from "react";
 
 import Container from "@/components/Container";
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useRedirectAfterAuth } from "@/hooks/useRedirectAfterAuth";
 import { signIn, signUp } from "@/lib/auth/auth-client";
 
 const AuthTexts: Record<
@@ -88,7 +88,7 @@ export default function AuthForm({ type }: Props) {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const setRedirectAfterAuth = useRedirectAfterAuth("/dashboard", true);
+  const router = useRouter();
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     if (!formRef.current) return;
@@ -106,7 +106,7 @@ export default function AuthForm({ type }: Props) {
       if (result.error) {
         setError(result.error.message ?? `Failed to ${currentAuthText.name}`);
       } else {
-        setRedirectAfterAuth(true);
+        router.push("/dashboard");
       }
     } catch {
       setError("An unexpected error occurred");

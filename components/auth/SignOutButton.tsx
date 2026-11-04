@@ -1,11 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useRedirectAfterAuth } from "@/hooks/useRedirectAfterAuth";
 import { signOut } from "@/lib/auth/auth-client";
 
 export default function SignOutButton() {
-  const setRedirectAfterSignOut = useRedirectAfterAuth("/dashboard", false);
+  const router = useRouter();
 
   return (
     <DropdownMenuItem
@@ -13,7 +14,7 @@ export default function SignOutButton() {
       onClick={async () => {
         const result = await signOut();
         if (result.data) {
-          setRedirectAfterSignOut(true);
+          router.push("/sign-in");
         } else {
           alert("Error signing out");
         }

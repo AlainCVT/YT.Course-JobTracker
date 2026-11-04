@@ -1,18 +1,12 @@
-"use client";
-
 import { redirect } from "next/navigation";
 
-import { useSession } from "@/lib/auth/auth-client";
+import { getSession } from "@/lib/auth/auth";
 
-export default function Dashboard() {
-  const { data: session, isPending } = useSession();
+export default async function Dashboard() {
+  const session = await getSession();
 
-  if (isPending) {
-    return null;
-  }
-
-  if (!session) {
-    redirect("/sign-in");
+  if (!session?.user) {
+    redirect("sign-in");
   }
 
   return <div>Dashboard</div>;
