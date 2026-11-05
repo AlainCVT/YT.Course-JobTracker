@@ -8,17 +8,6 @@ const ColumnSchema = new Schema(
       type: String,
       required: true,
     },
-    boardId: {
-      type: Schema.Types.ObjectId,
-      ref: "Board",
-      required: true,
-      index: true,
-    },
-    order: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
     icon: {
       type: String,
       enum: Object.keys(COLUMNS_ICONS),
@@ -44,6 +33,17 @@ const ColumnSchema = new Schema(
         "pink",
         "rose",
       ],
+    },
+    order: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: "Board",
+      required: true,
+      index: true,
     },
     jobApplications: [
       {

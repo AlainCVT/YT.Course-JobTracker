@@ -25,14 +25,6 @@ const BoardSchema = new Schema({
 
 export type BoardType = InferSchemaType<typeof BoardSchema>;
 
-export type PopulatedBoardType = Omit<BoardType, "columns"> &
-  MongoSchemaBase & {
-    columns: (Omit<ColumnType, "jobApplications"> &
-      MongoSchemaBase & {
-        jobApplications: (JobApplicationType & MongoSchemaBase)[];
-      })[];
-  };
-
 const Board =
   (mongoose.models.Board as Model<BoardType> | undefined) ??
   mongoose.model<BoardType>("Board", BoardSchema);

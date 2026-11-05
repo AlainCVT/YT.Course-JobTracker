@@ -90,7 +90,7 @@ export default function AuthForm({ type }: Props) {
 
   const router = useRouter();
 
-  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     if (!formRef.current) return;
 
     event.preventDefault();
@@ -113,7 +113,7 @@ export default function AuthForm({ type }: Props) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <Container className="flex flex-1 items-center justify-center py-8">
@@ -125,7 +125,7 @@ export default function AuthForm({ type }: Props) {
           </CardDescription>
         </CardHeader>
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-4">
             {error && (
               <div className="rounded-md bg-destructive/10 px-2 py-1 text-sm text-destructive">
                 {error}

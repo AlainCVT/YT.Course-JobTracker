@@ -13,10 +13,32 @@ const JobApplicationSchema = new Schema(
     location: {
       type: String,
     },
-    status: {
-      type: String,
+    salary: {
+      type: [Number],
       required: true,
-      default: "applied",
+      validate: {
+        validator: (value: number[]) => value.length === 2,
+        message: "Salary must contain exactly 2 numbers",
+      },
+    },
+    url: {
+      type: String,
+    },
+    tags: [
+      {
+        type: String,
+      },
+    ],
+    description: {
+      type: String,
+    },
+    notes: {
+      type: String,
+    },
+    order: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     columnId: {
       type: Schema.Types.ObjectId,
@@ -34,31 +56,6 @@ const JobApplicationSchema = new Schema(
       type: String,
       required: true,
       index: true,
-    },
-    order: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    notes: {
-      type: String,
-    },
-    salary: {
-      type: String,
-    },
-    jobUrl: {
-      type: String,
-    },
-    appliedDate: {
-      type: Date,
-    },
-    tags: [
-      {
-        type: String,
-      },
-    ],
-    description: {
-      type: String,
     },
   },
   {
