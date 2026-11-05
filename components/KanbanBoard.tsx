@@ -3,8 +3,9 @@
 import clsx from "clsx";
 import { MoreVertical, Trash2 } from "lucide-react";
 
+import CreateJobApplicationDialog from "@/components/dialogs/CreateJobApplicationDialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { COLUMNS_ICONS } from "@/lib/constants";
-import type { PopulatedBoardType, PopulatedColumnType } from "@/lib/models";
+import type { MongoID, PopulatedBoardType, PopulatedColumnType } from "@/lib/models";
 
 type Props = {
   board: PopulatedBoardType | null;
   userId: string;
 };
 
-function DroppableColumn({ column }: { column: PopulatedColumnType }) {
+function DroppableColumn({ column, boardId }: { column: PopulatedColumnType; boardId: MongoID }) {
   const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
 
   return (
@@ -68,6 +69,9 @@ function DroppableColumn({ column }: { column: PopulatedColumnType }) {
           </DropdownMenu>
         </div>
       </CardHeader>
+      <CardContent className="min-h-96 space-y-2">
+        <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
+      </CardContent>
     </Card>
   );
 }
@@ -77,7 +81,7 @@ export default function KanbanBoard({ board, userId }: Props) {
     <div className="flex flex-col gap-8">
       {!!board &&
         board.columns.map((column, index) => (
-          <DroppableColumn key={`droppable-column-${index}`} column={column} />
+          <DroppableColumn key={`droppable-column-${index}`} column={column} boardId={board._id} />
         ))}
     </div>
   );
