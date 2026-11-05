@@ -1,5 +1,7 @@
 import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
 
+import { COLUMNS_ICONS } from "@/lib/constants";
+
 const ColumnSchema = new Schema(
   {
     name: {
@@ -16,6 +18,32 @@ const ColumnSchema = new Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    icon: {
+      type: String,
+      enum: Object.keys(COLUMNS_ICONS),
+    },
+    color: {
+      type: String,
+      enum: [
+        "red",
+        "orange",
+        "amber",
+        "yellow",
+        "lime",
+        "green",
+        "emerald",
+        "teal",
+        "cyan",
+        "sky",
+        "blue",
+        "indigo",
+        "violet",
+        "purple",
+        "fuchsia",
+        "pink",
+        "rose",
+      ],
     },
     jobApplications: [
       {
