@@ -23,6 +23,7 @@ const eslintConfig = defineConfig([
       },
     },
     rules: {
+      "object-shorthand": ["error", "always"],
       "prettier/prettier": "error",
       "react-hooks/exhaustive-deps": "warn",
       "react-hooks/rules-of-hooks": "error",
