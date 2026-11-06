@@ -1,6 +1,6 @@
 import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
 
-import { COLUMNS_ICONS } from "@/lib/constants";
+import { COLUMNS_ICONS, UI_COLORS } from "@/lib/constants";
 
 const ColumnSchema = new Schema(
   {
@@ -14,25 +14,7 @@ const ColumnSchema = new Schema(
     },
     color: {
       type: String,
-      enum: [
-        "red",
-        "orange",
-        "amber",
-        "yellow",
-        "lime",
-        "green",
-        "emerald",
-        "teal",
-        "cyan",
-        "sky",
-        "blue",
-        "indigo",
-        "violet",
-        "purple",
-        "fuchsia",
-        "pink",
-        "rose",
-      ],
+      enum: UI_COLORS,
     },
     order: {
       type: Number,
