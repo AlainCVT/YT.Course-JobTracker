@@ -15,12 +15,33 @@ import {
 import { COLUMNS_ICONS } from "@/lib/constants";
 import type { MongoID, PopulatedBoardType, PopulatedColumnType } from "@/lib/models";
 
-type Props = {
+interface KanbanBoardProps {
   board: PopulatedBoardType | null;
   userId: string;
-};
+}
 
-function DroppableColumn({ column, boardId }: { column: PopulatedColumnType; boardId: MongoID }) {
+export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
+  return (
+    <div className="flex flex-col gap-8">
+      {!!board &&
+        board.columns.map((column, index) => (
+          <KanbanDroppableColumn
+            key={`droppable-column-${index}`}
+            column={column}
+            boardId={board._id}
+          />
+        ))}
+    </div>
+  );
+}
+
+function KanbanDroppableColumn({
+  column,
+  boardId,
+}: {
+  column: PopulatedColumnType;
+  boardId: MongoID;
+}) {
   const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
 
   return (
@@ -52,19 +73,14 @@ function DroppableColumn({ column, boardId }: { column: PopulatedColumnType; boa
             <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
           </div>
           <DropdownMenu>
-            <Button render={<DropdownMenuTrigger />} variant="ghost">
+            <Button render={<DropdownMenuTrigger />} variant="ghost" size="icon">
               <MoreVertical className="size-4" />
             </Button>
-            <DropdownMenuContent align="end" className="w-40 whitespace-nowrap">
-              <Button
-                render={<DropdownMenuItem />}
-                nativeButton={false}
-                variant="destructive"
-                className="w-full justify-start"
-              >
+            <DropdownMenuContent align="end" className="w-36 whitespace-nowrap">
+              <DropdownMenuItem variant="destructive">
                 <Trash2 className="size-4" />
                 Delete column
-              </Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -73,16 +89,5 @@ function DroppableColumn({ column, boardId }: { column: PopulatedColumnType; boa
         <CreateJobApplicationDialog columnId={column._id} boardId={boardId} />
       </CardContent>
     </Card>
-  );
-}
-
-export default function KanbanBoard({ board, userId }: Props) {
-  return (
-    <div className="flex flex-col gap-8">
-      {!!board &&
-        board.columns.map((column, index) => (
-          <DroppableColumn key={`droppable-column-${index}`} column={column} boardId={board._id} />
-        ))}
-    </div>
   );
 }

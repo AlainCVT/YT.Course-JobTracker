@@ -54,9 +54,9 @@ const AuthTexts: Record<
   },
 };
 
-type Props = {
+interface AuthFormProps {
   type: keyof typeof AuthTexts;
-};
+}
 
 const signInForm = async (formData: FormData) => {
   const email = formData.get("email")?.toString() ?? "";
@@ -80,7 +80,7 @@ const signUpForm = async (formData: FormData) => {
   });
 };
 
-export default function AuthForm({ type }: Props) {
+export default function AuthForm({ type }: AuthFormProps) {
   const currentAuthText = AuthTexts[type];
 
   const formRef = useRef<HTMLFormElement>(null);

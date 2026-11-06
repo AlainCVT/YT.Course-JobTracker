@@ -25,10 +25,16 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm">
       <Container as="nav" className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 text-xl font-semibold text-primary">
-          <Briefcase />
+        <Button
+          className="gap-2 py-6 text-xl font-semibold"
+          render={<Link href="/" />}
+          nativeButton={false}
+          variant="ghost"
+          size="lg"
+        >
+          <Briefcase className="size-8 text-primary" />
           Job Tracker
-        </Link>
+        </Button>
         <div className="flex items-center gap-4">
           {session?.user ? (
             <>

@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { type SubmitEvent, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -19,19 +19,24 @@ import { createJobApplication } from "@/lib/actions/job-applications";
 import type { MongoID } from "@/lib/models";
 
 export default function CreateJobApplicationDialog({
+  columnName,
   columnId,
   boardId,
 }: {
+  columnName: string;
   columnId: MongoID;
   boardId: MongoID;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     if (!formRef.current) return;
 
     event.preventDefault();
+
+    setLoading(true);
 
     const formData = new FormData(formRef.current);
 
@@ -61,6 +66,8 @@ export default function CreateJobApplicationDialog({
       setOpen(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,7 +78,7 @@ export default function CreateJobApplicationDialog({
       </Button>
       <DialogContent className="max-h-[calc(100vh-1rem*2)] overflow-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg">Add Job Application</DialogTitle>
+          <DialogTitle className="text-lg">Add Job Application to {columnName}</DialogTitle>
           <DialogDescription>Track a new job application</DialogDescription>
         </DialogHeader>
         <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
@@ -133,11 +140,11 @@ export default function CreateJobApplicationDialog({
             </Field>
             <Field>
               <FieldLabel htmlFor="description">Description</FieldLabel>
-              <Textarea id="description" rows={3} />
+              <Textarea id="description" name="description" rows={3} />
             </Field>
             <Field>
               <FieldLabel htmlFor="notes">Notes</FieldLabel>
-              <Textarea id="notes" rows={4} />
+              <Textarea id="notes" name="notes" rows={4} />
             </Field>
           </div>
           <DialogFooter>
@@ -150,7 +157,9 @@ export default function CreateJobApplicationDialog({
             >
               Cancel
             </Button>
-            <Button type="submit">Add Application</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? <Loader2 className="animate-spin" /> : "Add Application"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

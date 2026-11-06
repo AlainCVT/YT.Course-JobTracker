@@ -1,7 +1,7 @@
 import clsx, { type ClassValue } from "clsx";
 import type { ComponentPropsWithoutRef, ElementType, PropsWithChildren } from "react";
 
-type Props<T extends ElementType = "div"> = PropsWithChildren<{
+type ContainerProps<T extends ElementType = "div"> = PropsWithChildren<{
   as?: T;
   className?: ClassValue;
 }> &
@@ -12,7 +12,7 @@ export default function Container<T extends ElementType = "div">({
   children,
   className,
   ...props
-}: Props<T>) {
+}: ContainerProps<T>) {
   const Component = as ?? "div";
 
   return (

@@ -5,13 +5,13 @@ import type { ReactNode } from "react";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 
-type FeatureProps = {
+type FeatureData = {
   icon: LucideIcon;
   title: ReactNode;
   text: ReactNode;
 };
 
-const FEATURES: FeatureProps[] = [
+const FEATURES: FeatureData[] = [
   {
     icon: Briefcase,
     title: "Organize Applications",
@@ -29,7 +29,7 @@ const FEATURES: FeatureProps[] = [
   },
 ];
 
-const Feature = ({ icon: Icon, title, text }: FeatureProps) => (
+const Feature = ({ icon: Icon, title, text }: FeatureData) => (
   <div className="flex flex-col">
     <div className="inline-flex size-12 items-center justify-center rounded-lg bg-primary/10">
       <Icon className="size-6 text-primary" />
