@@ -17,7 +17,8 @@ export async function initializeUserBoard(userId: string) {
     const existingBoard = await Board.findOne({ userId, name: "Job Hunt" });
 
     if (existingBoard) {
-      return existingBoard;
+      const existingColumns = await Column.find({ boardId: existingBoard._id }).sort({ order: 1 });
+      return { board: existingBoard, columns: existingColumns };
     }
 
     // Create the board
@@ -45,7 +46,7 @@ export async function initializeUserBoard(userId: string) {
     board.columns = columns.map((column) => column._id);
     await board.save();
 
-    return board;
+    return { board, columns };
   } catch (error) {
     throw error;
   }

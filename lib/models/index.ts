@@ -1,15 +1,15 @@
 import type mongoose from "mongoose";
 
-import type { BoardType } from "@/lib/models/board";
-import type { ColumnType } from "@/lib/models/column";
-import type { JobApplicationType } from "@/lib/models/job-application";
+import type { BoardType } from "@/lib/models/board.model";
+import type { ColumnType } from "@/lib/models/column.model";
+import type { JobApplicationType } from "@/lib/models/job-application.model";
 
-export * from "./board";
-export { default as Board } from "./board";
-export * from "./column";
-export { default as Column } from "./column";
-export * from "./job-application";
-export { default as JobApplication } from "./job-application";
+export * from "./board.model";
+export { default as Board } from "./board.model";
+export * from "./column.model";
+export { default as Column } from "./column.model";
+export * from "./job-application.model";
+export { default as JobApplication } from "./job-application.model";
 
 export type MongoID = mongoose.Types.ObjectId;
 
