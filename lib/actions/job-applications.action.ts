@@ -4,15 +4,21 @@ import { revalidatePath } from "next/cache";
 
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
-import { Board, Column, JobApplication, type JobApplicationType } from "@/lib/models";
+import {
+  Board,
+  Column,
+  JobApplication,
+  type JobApplicationType,
+  type MongoTimestampProps,
+} from "@/lib/models";
 
-type JobApplicationPayload = Omit<
+type CreateJobApplicationPayload = Omit<
   JobApplicationType,
-  "order" | "userId" | "createdAt" | "updatedAt"
+  "order" | "userId" | keyof MongoTimestampProps
 >;
 
 export async function createJobApplication(
-  data: JobApplicationPayload,
+  payload: CreateJobApplicationPayload,
 ): Promise<JobApplicationType> {
   const session = await getSession();
 
@@ -29,13 +35,13 @@ export async function createJobApplication(
     tags = [],
     description,
     notes,
-    columnId,
     boardId,
-  } = data;
+    columnId,
+  } = payload;
 
-  if (!columnId || !boardId) {
+  if (!boardId || !columnId) {
     const error = new Error("Missing data");
-    error.cause = ["columnId", "boardId"];
+    error.cause = ["boardId", "columnId"];
     throw error;
   }
 
@@ -61,12 +67,14 @@ export async function createJobApplication(
   });
   if (!column) throw new Error("Column not found");
 
+  // Get current max order
   const maxOrder = await JobApplication.findOne({ columnId })
     .sort({ order: -1 })
     .select("order")
     .lean<Pick<JobApplicationType, "order">>();
 
-  const jobApplication = await JobApplication.create({
+  // Create job application
+  const createdJobApplication = await JobApplication.create({
     company,
     position,
     location,
@@ -76,16 +84,17 @@ export async function createJobApplication(
     description,
     notes,
     order: maxOrder ? maxOrder.order + 1 : 0,
-    columnId,
-    boardId,
     userId: session.user.id,
+    boardId,
+    columnId,
   });
 
+  // Add job application to column
   await Column.findByIdAndUpdate(columnId, {
-    $push: { jobApplications: jobApplication._id },
+    $push: { jobApplications: createdJobApplication._id },
   });
 
   revalidatePath("/dashboard");
 
-  return JSON.parse(JSON.stringify(jobApplication));
+  return JSON.parse(JSON.stringify(createdJobApplication));
 }

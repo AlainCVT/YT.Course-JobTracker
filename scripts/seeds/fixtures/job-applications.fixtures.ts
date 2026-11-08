@@ -1,8 +1,8 @@
-import type { JobApplicationType } from "@/lib/models";
+import type { JobApplicationType, MongoTimestampProps } from "@/lib/models";
 
-export const JOB_APPLICATIONS_FIXTURES: Pick<
+export const JOB_APPLICATIONS_FIXTURES: Omit<
   JobApplicationType,
-  "company" | "position" | "location" | "salary" | "url" | "tags" | "description" | "notes"
+  "order" | "userId" | "boardId" | "columnId" | keyof MongoTimestampProps
 >[] = [
   {
     company: "BrightLayer Digital",

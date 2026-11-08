@@ -1,7 +1,10 @@
 import connectDB from "./db";
-import { Board, Column, type ColumnType } from "./models";
+import { Board, Column, type ColumnType, type MongoTimestampProps } from "./models";
 
-const DEFAULT_COLUMNS: Pick<ColumnType, "name" | "order" | "icon" | "color">[] = [
+const DEFAULT_COLUMNS: Omit<
+  ColumnType,
+  "jobApplications" | "boardId" | keyof MongoTimestampProps
+>[] = [
   { name: "Wish List", order: 0, icon: "Calendar", color: "cyan" },
   { name: "Applied", order: 1, icon: "CircleCheck", color: "purple" },
   { name: "Interviewing", order: 2, icon: "Mic", color: "green" },
@@ -36,8 +39,8 @@ export async function initializeUserBoard(userId: string) {
           order: column.order,
           icon: column.icon,
           color: column.color,
-          boardId: board._id,
           jobApplications: [],
+          boardId: board._id,
         }),
       ),
     );

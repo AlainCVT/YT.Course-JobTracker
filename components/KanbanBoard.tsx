@@ -35,8 +35,8 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
         board.columns.map((column, index) => (
           <KanbanDroppableColumn
             key={`droppable-column-${index}`}
-            column={column}
             boardId={board._id}
+            column={column}
             sortedColumns={sortedColumns}
           />
         ))}
@@ -45,8 +45,8 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
 }
 
 function KanbanDroppableColumn({
-  column,
   boardId,
+  column,
   sortedColumns,
 }: {
   column: PopulatedColumnType;
@@ -128,9 +128,9 @@ function KanbanDroppableColumn({
       )}
       <CardFooter>
         <CreateJobApplicationDialog
-          columnName={column.name}
-          columnId={column._id}
           boardId={boardId}
+          columnId={column._id}
+          columnName={column.name}
         />
       </CardFooter>
     </Card>

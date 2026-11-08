@@ -1,10 +1,5 @@
 import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
 
-import type { MongoSchemaBase } from "@/lib/models";
-
-import type { ColumnType } from "./column.model";
-import type { JobApplicationType } from "./job-application.model";
-
 const BoardSchema = new Schema({
   name: {
     type: String,

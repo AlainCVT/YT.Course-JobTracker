@@ -13,6 +13,8 @@ export { default as JobApplication } from "./job-application.model";
 
 export type MongoID = mongoose.Types.ObjectId;
 
+export type MongoTimestampProps = mongoose.DefaultTimestampProps;
+
 export interface MongoSchemaBase {
   _id: MongoID;
 }

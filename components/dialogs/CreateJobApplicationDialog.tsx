@@ -19,13 +19,13 @@ import { createJobApplication } from "@/lib/actions/job-applications.action";
 import type { MongoID } from "@/lib/models";
 
 export default function CreateJobApplicationDialog({
-  columnName,
-  columnId,
   boardId,
+  columnId,
+  columnName,
 }: {
-  columnName: string;
-  columnId: MongoID;
   boardId: MongoID;
+  columnId: MongoID;
+  columnName: string;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,8 +59,8 @@ export default function CreateJobApplicationDialog({
         tags,
         description,
         notes,
-        columnId,
         boardId,
+        columnId,
       });
 
       setOpen(false);

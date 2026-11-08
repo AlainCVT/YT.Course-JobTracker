@@ -35,10 +35,10 @@ export async function seedJobApplications(userId: string): Promise<number> {
 
       const jobApplication = await JobApplication.create({
         ...jobApplicationsByColumn[order],
-        columnId: column._id,
-        boardId: board._id,
-        userId,
         order: Number(order),
+        userId,
+        boardId: board._id,
+        columnId: column._id,
       });
 
       column.jobApplications.push(jobApplication._id);

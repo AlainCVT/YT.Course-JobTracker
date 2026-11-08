@@ -40,9 +40,8 @@ const JobApplicationSchema = new Schema(
       required: true,
       default: 0,
     },
-    columnId: {
-      type: Schema.Types.ObjectId,
-      ref: "Column",
+    userId: {
+      type: String,
       required: true,
       index: true,
     },
@@ -52,8 +51,9 @@ const JobApplicationSchema = new Schema(
       required: true,
       index: true,
     },
-    userId: {
-      type: String,
+    columnId: {
+      type: Schema.Types.ObjectId,
+      ref: "Column",
       required: true,
       index: true,
     },
