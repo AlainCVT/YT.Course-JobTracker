@@ -1,9 +1,26 @@
 import { ArrowRight, Briefcase, CheckCircle2, type LucideIcon, TrendingUp } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Free Job Application Tracker",
+  description:
+    "Take control of your job search with a free job application tracker. Organize applications, track interviews, and manage your progress in one place.",
+  openGraph: {
+    title: "Free Job Application Tracker",
+    description:
+      "Organize applications, track interviews, and manage your job search in one place.",
+  },
+  twitter: {
+    title: "Free Job Application Tracker",
+    description:
+      "Organize applications, track interviews, and manage your job search in one place.",
+  },
+};
 
 type FeatureData = {
   icon: LucideIcon;

@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -7,6 +8,15 @@ import KanbanBoard from "@/components/KanbanBoard";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board, type PopulatedBoardType } from "@/lib/models";
+
+export const metadata: Metadata = {
+  title: "Your Job Search Dashboard",
+  description: "Manage your job applications and track your job search progress.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const getBoard = async (userId: string): Promise<PopulatedBoardType | null> => {
   "use cache";
