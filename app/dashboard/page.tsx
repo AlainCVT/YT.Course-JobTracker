@@ -8,7 +8,7 @@ import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board, type PopulatedBoardType } from "@/lib/models";
 
-async function getBoard(userId: string): Promise<PopulatedBoardType | null> {
+const getBoard = async (userId: string): Promise<PopulatedBoardType | null> => {
   "use cache";
 
   await connectDB();
@@ -26,7 +26,7 @@ async function getBoard(userId: string): Promise<PopulatedBoardType | null> {
   if (!board) return null;
 
   return JSON.parse(JSON.stringify(board)) as PopulatedBoardType;
-}
+};
 
 export default function Dashboard() {
   return (

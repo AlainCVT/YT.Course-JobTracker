@@ -10,8 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { updateJobApplication } from "@/lib/actions/job-applications.action";
 import { getStringColor } from "@/lib/helpers";
-import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
+import type { MongoID, PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
 interface JobApplicationCardProps {
   job: PopulatedJobApplicationType;
@@ -108,6 +109,7 @@ export function JobApplicationCard({ job, columns }: JobApplicationCardProps) {
               )}
             </div>
             <JobApplicationMenu
+              jobId={job._id}
               otherColumns={columns.filter((column) => column._id !== job.columnId)}
             />
           </div>
@@ -117,7 +119,13 @@ export function JobApplicationCard({ job, columns }: JobApplicationCardProps) {
   );
 }
 
-function JobApplicationMenu({ otherColumns }: { otherColumns: PopulatedColumnType[] }) {
+function JobApplicationMenu({
+  jobId,
+  otherColumns,
+}: {
+  jobId: MongoID;
+  otherColumns: PopulatedColumnType[];
+}) {
   return (
     <DropdownMenu>
       <Button render={<DropdownMenuTrigger />} variant="ghost" size="icon">
@@ -151,6 +159,11 @@ function JobApplicationMenu({ otherColumns }: { otherColumns: PopulatedColumnTyp
                 "focus:bg-pink-500/10 focus:text-pink-500": column.color === "pink",
                 "focus:bg-rose-500/10 focus:text-rose-500": column.color === "rose",
               })}
+              onClick={() => {
+                updateJobApplication(jobId, { columnId: column._id }).catch((error) => {
+                  console.error("Failed to move job application:", error);
+                });
+              }}
             >
               Move to {column.name}
             </DropdownMenuItem>

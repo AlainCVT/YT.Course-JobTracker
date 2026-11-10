@@ -9,12 +9,17 @@ import {
   Column,
   JobApplication,
   type JobApplicationType,
+  type MongoID,
   type MongoTimestampProps,
 } from "@/lib/models";
 
 type CreateJobApplicationPayload = Omit<
   JobApplicationType,
   "order" | "userId" | keyof MongoTimestampProps
+>;
+
+type UpdateJobApplicationPayload = Partial<
+  Omit<JobApplicationType, "userId" | "boardId" | keyof MongoTimestampProps>
 >;
 
 export async function createJobApplication(
@@ -68,9 +73,9 @@ export async function createJobApplication(
   if (!column) throw new Error("Column not found");
 
   // Get current max order
-  const maxOrder = await JobApplication.findOne({ columnId })
+  const jobApplicationWithMaxOrder = await JobApplication.findOne({ columnId })
     .sort({ order: -1 })
-    .select("order")
+    .select({ order: 1, _id: 0 })
     .lean<Pick<JobApplicationType, "order">>();
 
   // Create job application
@@ -83,7 +88,7 @@ export async function createJobApplication(
     tags,
     description,
     notes,
-    order: maxOrder ? maxOrder.order + 1 : 0,
+    order: jobApplicationWithMaxOrder ? jobApplicationWithMaxOrder.order + 1 : 0,
     userId: session.user.id,
     boardId,
     columnId,
@@ -97,4 +102,112 @@ export async function createJobApplication(
   revalidatePath("/dashboard");
 
   return JSON.parse(JSON.stringify(createdJobApplication));
+}
+
+export async function updateJobApplication(
+  id: MongoID,
+  payload: UpdateJobApplicationPayload,
+): Promise<JobApplicationType> {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  // Verify if job applications exists and belongs to user
+  const currentJobApplication = await JobApplication.findById(id);
+
+  if (!currentJobApplication) {
+    throw new Error("Job application not found");
+  }
+
+  if (currentJobApplication.userId !== session.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const { columnId, ...restPayload } = payload;
+  const currentColumnId = currentJobApplication.columnId.toString();
+  const currentOrder = currentJobApplication.order || 0;
+  const isMovingToDifferentColumn = !!columnId && columnId?.toString() !== currentColumnId;
+
+  // Handle to job applications changes column
+  if (isMovingToDifferentColumn) {
+    // Remove job application from current column
+    await Column.findByIdAndUpdate(currentColumnId, {
+      $pull: { jobApplications: id },
+    });
+
+    // Shift job applications' orders in the current column
+    await JobApplication.updateMany(
+      {
+        _id: { $ne: id },
+        columnId: currentColumnId,
+        order: { $gt: currentOrder },
+      },
+      { $inc: { order: -1 } },
+    );
+
+    if (payload.order !== undefined && payload.order !== null) {
+      // Shift job applications' orders in the new column
+      await JobApplication.updateMany(
+        {
+          _id: { $ne: id },
+          columnId,
+          order: { $gte: payload.order },
+        },
+        { $inc: { order: 1 } },
+      );
+    } else {
+      // Set order in payload depending on job applications count in new column
+      const jobApplicationWithMaxOrder = await JobApplication.findOne({
+        _id: { $ne: id },
+        columnId,
+      })
+        .sort({ order: -1 })
+        .select({ order: 1, _id: 0 })
+        .lean<Pick<JobApplicationType, "order">>();
+
+      restPayload.order = jobApplicationWithMaxOrder ? jobApplicationWithMaxOrder.order + 1 : 0;
+    }
+
+    // Add job application to new column
+    await Column.findByIdAndUpdate(columnId, {
+      $push: { jobApplications: id },
+    });
+  } else if (payload.order !== undefined && payload.order !== null) {
+    if (payload.order < currentOrder) {
+      // Shift up job applications' orders in the current column
+      await JobApplication.updateMany(
+        {
+          _id: { $ne: id },
+          columnId: currentColumnId,
+          order: { $gte: payload.order, $lt: currentOrder },
+        },
+        { $inc: { order: 1 } },
+      );
+    } else if (payload.order > currentOrder) {
+      // Shift down job applications' orders in the current column
+      await JobApplication.updateMany(
+        {
+          _id: { $ne: id },
+          columnId: currentColumnId,
+          order: { $gt: currentOrder, $lte: payload.order },
+        },
+        { $inc: { order: -1 } },
+      );
+    }
+  }
+
+  const updatedJobApplication = await JobApplication.findByIdAndUpdate(
+    id,
+    {
+      ...restPayload,
+      ...(isMovingToDifferentColumn && { columnId }),
+    },
+    { returnDocument: "after" },
+  );
+
+  revalidatePath("/dashboard");
+
+  return JSON.parse(JSON.stringify(updatedJobApplication));
 }
