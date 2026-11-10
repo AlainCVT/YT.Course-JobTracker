@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { MoreVertical, Trash2 } from "lucide-react";
+import { MoreVertical, Plus, Trash2 } from "lucide-react";
 
 import { JobApplicationCard } from "@/components/cards/JobApplicationCard";
 import CreateJobApplicationDialog from "@/components/dialogs/CreateJobApplicationDialog";
@@ -131,6 +131,11 @@ function KanbanDroppableColumn({
           boardId={boardId}
           columnId={column._id}
           columnName={column.name}
+          trigger={
+            <Button variant="outline">
+              <Plus /> Add job
+            </Button>
+          }
         />
       </CardFooter>
     </Card>

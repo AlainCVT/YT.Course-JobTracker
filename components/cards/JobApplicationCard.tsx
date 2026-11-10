@@ -1,6 +1,8 @@
 import { clsx } from "clsx";
 import { Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
+import { useState } from "react";
 
+import UpdateJobApplicationDialog from "@/components/dialogs/UpdateJobApplicationDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { updateJobApplication } from "@/lib/actions/job-applications.action";
 import { getStringColor } from "@/lib/helpers";
-import type { MongoID, PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
+import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
 interface JobApplicationCardProps {
   job: PopulatedJobApplicationType;
@@ -50,6 +52,44 @@ export function JobApplicationCard({ job, columns }: JobApplicationCardProps) {
                         <ExternalLink className="size-3" />
                       </Button>
                     </>
+                  )}
+                  {job.salary.length && job.salary.some(Boolean) && (
+                    <Badge variant="secondary" className="text-muted-foreground">
+                      {!job.salary[1] ? (
+                        <>
+                          &ge;{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            notation: "compact",
+                          }).format(job.salary[0])}
+                        </>
+                      ) : !job.salary[0] ? (
+                        <>
+                          &le;{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            notation: "compact",
+                          }).format(job.salary[1])}
+                        </>
+                      ) : (
+                        <>
+                          {[
+                            new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              notation: "compact",
+                            }).format(job.salary[0]),
+                            new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              notation: "compact",
+                            }).format(job.salary[1]),
+                          ].join(" - ")}
+                        </>
+                      )}
+                    </Badge>
                   )}
                 </p>
               </div>
@@ -109,7 +149,7 @@ export function JobApplicationCard({ job, columns }: JobApplicationCardProps) {
               )}
             </div>
             <JobApplicationMenu
-              jobId={job._id}
+              jobApplication={job}
               otherColumns={columns.filter((column) => column._id !== job.columnId)}
             />
           </div>
@@ -120,59 +160,74 @@ export function JobApplicationCard({ job, columns }: JobApplicationCardProps) {
 }
 
 function JobApplicationMenu({
-  jobId,
+  jobApplication,
   otherColumns,
 }: {
-  jobId: MongoID;
+  jobApplication: PopulatedJobApplicationType;
   otherColumns: PopulatedColumnType[];
 }) {
+  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
+
   return (
-    <DropdownMenu>
-      <Button render={<DropdownMenuTrigger />} variant="ghost" size="icon">
-        <MoreVertical className="size-4" />
-      </Button>
-      <DropdownMenuContent align="end" className="w-48 whitespace-nowrap">
-        <DropdownMenuItem>
-          <Edit2 className="size-4" />
-          Edit
-        </DropdownMenuItem>
-        {otherColumns.length > 1 &&
-          otherColumns.map((column, key) => (
-            <DropdownMenuItem
-              key={key}
-              className={clsx({
-                "focus:bg-red-500/10 focus:text-red-500": column.color === "red",
-                "focus:bg-orange-500/10 focus:text-orange-500": column.color === "orange",
-                "focus:bg-amber-500/10 focus:text-amber-500": column.color === "amber",
-                "focus:bg-yellow-500/10 focus:text-yellow-500": column.color === "yellow",
-                "focus:bg-lime-500/10 focus:text-lime-500": column.color === "lime",
-                "focus:bg-green-500/10 focus:text-green-500": column.color === "green",
-                "focus:bg-emerald-500/10 focus:text-emerald-500": column.color === "emerald",
-                "focus:bg-teal-500/10 focus:text-teal-500": column.color === "teal",
-                "focus:bg-cyan-500/10 focus:text-cyan-500": column.color === "cyan",
-                "focus:bg-sky-500/10 focus:text-sky-500": column.color === "sky",
-                "focus:bg-blue-500/10 focus:text-blue-500": column.color === "blue",
-                "focus:bg-indigo-500/10 focus:text-indigo-500": column.color === "indigo",
-                "focus:bg-violet-500/10 focus:text-violet-500": column.color === "violet",
-                "focus:bg-purple-500/10 focus:text-purple-500": column.color === "purple",
-                "focus:bg-fuchsia-500/10 focus:text-fuchsia-500": column.color === "fuchsia",
-                "focus:bg-pink-500/10 focus:text-pink-500": column.color === "pink",
-                "focus:bg-rose-500/10 focus:text-rose-500": column.color === "rose",
-              })}
-              onClick={() => {
-                updateJobApplication(jobId, { columnId: column._id }).catch((error) => {
-                  console.error("Failed to move job application:", error);
-                });
-              }}
-            >
-              Move to {column.name}
-            </DropdownMenuItem>
-          ))}
-        <DropdownMenuItem variant="destructive">
-          <Trash2 className="size-4" />
-          Delete job application
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <Button render={<DropdownMenuTrigger />} variant="ghost" size="icon">
+          <MoreVertical className="size-4" />
+        </Button>
+        <DropdownMenuContent align="end" className="w-48 whitespace-nowrap">
+          <DropdownMenuItem
+            onClick={() => {
+              setEditDialogOpen(true);
+            }}
+          >
+            <Edit2 className="size-4" />
+            Edit
+          </DropdownMenuItem>
+          {otherColumns.length > 1 &&
+            otherColumns.map((column, key) => (
+              <DropdownMenuItem
+                key={key}
+                className={clsx({
+                  "focus:bg-red-500/10 focus:text-red-500": column.color === "red",
+                  "focus:bg-orange-500/10 focus:text-orange-500": column.color === "orange",
+                  "focus:bg-amber-500/10 focus:text-amber-500": column.color === "amber",
+                  "focus:bg-yellow-500/10 focus:text-yellow-500": column.color === "yellow",
+                  "focus:bg-lime-500/10 focus:text-lime-500": column.color === "lime",
+                  "focus:bg-green-500/10 focus:text-green-500": column.color === "green",
+                  "focus:bg-emerald-500/10 focus:text-emerald-500": column.color === "emerald",
+                  "focus:bg-teal-500/10 focus:text-teal-500": column.color === "teal",
+                  "focus:bg-cyan-500/10 focus:text-cyan-500": column.color === "cyan",
+                  "focus:bg-sky-500/10 focus:text-sky-500": column.color === "sky",
+                  "focus:bg-blue-500/10 focus:text-blue-500": column.color === "blue",
+                  "focus:bg-indigo-500/10 focus:text-indigo-500": column.color === "indigo",
+                  "focus:bg-violet-500/10 focus:text-violet-500": column.color === "violet",
+                  "focus:bg-purple-500/10 focus:text-purple-500": column.color === "purple",
+                  "focus:bg-fuchsia-500/10 focus:text-fuchsia-500": column.color === "fuchsia",
+                  "focus:bg-pink-500/10 focus:text-pink-500": column.color === "pink",
+                  "focus:bg-rose-500/10 focus:text-rose-500": column.color === "rose",
+                })}
+                onClick={() => {
+                  updateJobApplication(jobApplication._id, { columnId: column._id }).catch(
+                    (error) => {
+                      console.error("Failed to move job application:", error);
+                    },
+                  );
+                }}
+              >
+                Move to {column.name}
+              </DropdownMenuItem>
+            ))}
+          <DropdownMenuItem variant="destructive">
+            <Trash2 className="size-4" />
+            Delete job application
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <UpdateJobApplicationDialog
+        payload={jobApplication}
+        open={editDialogOpen}
+        setOpen={setEditDialogOpen}
+      />
+    </>
   );
 }
