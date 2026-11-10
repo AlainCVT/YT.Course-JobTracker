@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
+import mongoose, { InferSchemaType, Model, type ObjectIdToString, Schema } from "mongoose";
 
 const BoardSchema = new Schema({
   name: {
@@ -19,6 +19,7 @@ const BoardSchema = new Schema({
 });
 
 export type BoardType = InferSchemaType<typeof BoardSchema>;
+export type BoardTypeDTO = ObjectIdToString<BoardType>;
 
 const Board =
   (mongoose.models.Board as Model<BoardType> | undefined) ??

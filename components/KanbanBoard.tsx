@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { COLUMNS_ICONS } from "@/lib/constants";
 import type {
-  MongoID,
   PopulatedBoardType,
   PopulatedColumnType,
   PopulatedJobApplicationType,
@@ -50,7 +49,7 @@ function KanbanDroppableColumn({
   sortedColumns,
 }: {
   column: PopulatedColumnType;
-  boardId: MongoID;
+  boardId: string;
   sortedColumns: PopulatedColumnType[];
 }) {
   const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;

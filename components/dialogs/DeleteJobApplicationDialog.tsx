@@ -19,10 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { deleteJobApplication } from "@/lib/actions/job-applications.action";
-import type { MongoID } from "@/lib/models";
 
 type DeleteJobApplicationProps = {
-  id: MongoID;
+  id: string;
 };
 
 type DeleteJobApplicationDialogProps = DeleteJobApplicationProps &

@@ -1,5 +1,6 @@
 "use server";
 
+import type { DeleteResult as MongooseDeleteResult } from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import { getSession } from "@/lib/auth/auth";
@@ -9,22 +10,26 @@ import {
   Column,
   JobApplication,
   type JobApplicationType,
-  type MongoID,
+  type MongoSchemaBase,
   type MongoTimestampProps,
+  type PopulatedJobApplicationType,
 } from "@/lib/models";
 
 type CreateJobApplicationPayload = Omit<
-  JobApplicationType,
-  "order" | "userId" | keyof MongoTimestampProps
+  PopulatedJobApplicationType,
+  keyof MongoSchemaBase | "order" | "userId" | keyof MongoTimestampProps
 >;
 
 type UpdateJobApplicationPayload = Partial<
-  Omit<JobApplicationType, "userId" | "boardId" | keyof MongoTimestampProps>
+  Omit<
+    PopulatedJobApplicationType,
+    keyof MongoSchemaBase | "userId" | "boardId" | keyof MongoTimestampProps
+  >
 >;
 
 export async function createJobApplication(
   payload: CreateJobApplicationPayload,
-): Promise<JobApplicationType> {
+): Promise<PopulatedJobApplicationType> {
   const session = await getSession();
 
   if (!session?.user) {
@@ -105,9 +110,9 @@ export async function createJobApplication(
 }
 
 export async function updateJobApplication(
-  id: MongoID,
+  id: string,
   payload: UpdateJobApplicationPayload,
-): Promise<JobApplicationType> {
+): Promise<PopulatedJobApplicationType> {
   const session = await getSession();
 
   if (!session?.user) {
@@ -212,7 +217,7 @@ export async function updateJobApplication(
   return JSON.parse(JSON.stringify(updatedJobApplication));
 }
 
-export async function deleteJobApplication(id: MongoID) {
+export async function deleteJobApplication(id: string): Promise<MongooseDeleteResult> {
   const session = await getSession();
 
   if (!session?.user) {

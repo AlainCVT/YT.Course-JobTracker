@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
+import mongoose, { InferSchemaType, Model, type ObjectIdToString, Schema } from "mongoose";
 
 import { COLUMNS_ICONS, UI_COLORS } from "@/lib/constants";
 
@@ -40,6 +40,7 @@ const ColumnSchema = new Schema(
 );
 
 export type ColumnType = InferSchemaType<typeof ColumnSchema>;
+export type ColumnTypeDTO = ObjectIdToString<ColumnType>;
 
 const Column =
   (mongoose.models.Column as Model<ColumnType> | undefined) ??

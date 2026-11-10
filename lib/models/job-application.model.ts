@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
+import mongoose, { InferSchemaType, Model, type ObjectIdToString, Schema } from "mongoose";
 
 const JobApplicationSchema = new Schema(
   {
@@ -64,6 +64,7 @@ const JobApplicationSchema = new Schema(
 );
 
 export type JobApplicationType = InferSchemaType<typeof JobApplicationSchema>;
+export type JobApplicationTypeDTO = ObjectIdToString<JobApplicationType>;
 
 const JobApplication =
   (mongoose.models.JobApplication as Model<JobApplicationType> | undefined) ??

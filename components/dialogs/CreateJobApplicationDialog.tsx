@@ -23,11 +23,10 @@ import { Input } from "@/components/ui/input";
 import { TagInput } from "@/components/ui/tag-input";
 import { Textarea } from "@/components/ui/textarea";
 import { createJobApplication } from "@/lib/actions/job-applications.action";
-import type { MongoID } from "@/lib/models";
 
 type CreateJobApplicationProps = {
-  boardId: MongoID;
-  columnId: MongoID;
+  boardId: string;
+  columnId: string;
   columnName: string;
 };
 
