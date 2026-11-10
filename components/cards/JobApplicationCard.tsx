@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import { Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
 import { useState } from "react";
 
+import DeleteJobApplicationDialog from "@/components/dialogs/DeleteJobApplicationDialog";
 import UpdateJobApplicationDialog from "@/components/dialogs/UpdateJobApplicationDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -167,6 +168,7 @@ function JobApplicationMenu({
   otherColumns: PopulatedColumnType[];
 }) {
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
+  const [removeDialogOpen, setRemoveDialogOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -217,7 +219,12 @@ function JobApplicationMenu({
                 Move to {column.name}
               </DropdownMenuItem>
             ))}
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => {
+              setRemoveDialogOpen(true);
+            }}
+          >
             <Trash2 className="size-4" />
             Delete job application
           </DropdownMenuItem>
@@ -227,6 +234,11 @@ function JobApplicationMenu({
         payload={jobApplication}
         open={editDialogOpen}
         setOpen={setEditDialogOpen}
+      />
+      <DeleteJobApplicationDialog
+        id={jobApplication._id}
+        open={removeDialogOpen}
+        setOpen={setRemoveDialogOpen}
       />
     </>
   );

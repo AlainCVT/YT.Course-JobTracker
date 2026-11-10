@@ -103,7 +103,6 @@ function UpdateJobApplicationContent({
         description,
         notes,
       });
-
       close();
     } catch (error) {
       console.error(error);

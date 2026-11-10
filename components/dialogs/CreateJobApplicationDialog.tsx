@@ -118,7 +118,6 @@ function CreateJobApplicationContent({
         boardId,
         columnId,
       });
-
       close();
     } catch (error) {
       console.error(error);

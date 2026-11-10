@@ -211,3 +211,43 @@ export async function updateJobApplication(
 
   return JSON.parse(JSON.stringify(updatedJobApplication));
 }
+
+export async function deleteJobApplication(id: MongoID) {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  // Verify if job applications exists and belongs to user
+  const currentJobApplication = await JobApplication.findById(id);
+
+  if (!currentJobApplication) {
+    throw new Error("Job application not found");
+  }
+
+  if (currentJobApplication.userId !== session.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  // Remove job application from current column
+  await Column.findByIdAndUpdate(currentJobApplication.columnId, {
+    $pull: { jobApplications: id },
+  });
+
+  // Shift up job applications' orders in the current column
+  await JobApplication.updateMany(
+    {
+      columnId: currentJobApplication.columnId,
+      order: { $gt: currentJobApplication.order },
+    },
+    { $inc: { order: -1 } },
+  );
+
+  // Delete job application
+  const result = await JobApplication.deleteOne({ _id: id });
+
+  revalidatePath("/dashboard");
+
+  return result;
+}
