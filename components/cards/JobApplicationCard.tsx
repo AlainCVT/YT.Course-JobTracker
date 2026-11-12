@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Edit2, ExternalLink, MoreVertical, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import DeleteJobApplicationDialog from "@/components/dialogs/DeleteJobApplicationDialog";
@@ -10,7 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { updateJobApplication } from "@/lib/actions/job-applications.action";
@@ -19,27 +21,33 @@ import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/mod
 
 interface JobApplicationCardProps {
   className?: ClassValue;
-  job: PopulatedJobApplicationType;
+  jobApplication: PopulatedJobApplicationType;
   columns: PopulatedColumnType[];
 }
 
-export function JobApplicationCard({ className, job, columns }: JobApplicationCardProps) {
+export function JobApplicationCard({
+  className,
+  jobApplication,
+  columns,
+}: JobApplicationCardProps) {
+  const currentColumn = columns.find((column) => column._id === jobApplication.columnId);
+
   return (
     <Card className={clsx(className)}>
       <CardContent>
-        <div className="flex items-start justify-between gap-4">
+        <div className="grid grid-cols-[1fr_auto] gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
             <div>
-              <h3 className="text-base font-semibold">{job.position}</h3>
+              <h3 className="text-base font-semibold">{jobApplication.position}</h3>
               <p className="text-sm text-muted-foreground">
-                {job.company}
-                {job.url && (
+                {jobApplication.company}
+                {jobApplication.url && (
                   <Button
                     render={
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={job.url}
+                        href={jobApplication.url}
                         onClick={(event) => {
                           event.stopPropagation();
                         }}
@@ -53,28 +61,28 @@ export function JobApplicationCard({ className, job, columns }: JobApplicationCa
                     <ExternalLink className="size-3" />
                   </Button>
                 )}
-                {job.salary.length && job.salary.some(Boolean) && (
+                {jobApplication.salary.length && jobApplication.salary.some(Boolean) && (
                   <Badge
                     variant="secondary"
                     className="bg-muted text-muted-foreground selection:bg-muted-foreground selection:text-muted"
                   >
-                    {!job.salary[1] ? (
+                    {!jobApplication.salary[1] ? (
                       <>
                         &ge;{" "}
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           notation: "compact",
-                        }).format(job.salary[0])}
+                        }).format(jobApplication.salary[0])}
                       </>
-                    ) : !job.salary[0] ? (
+                    ) : !jobApplication.salary[0] ? (
                       <>
                         &le;{" "}
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
                           notation: "compact",
-                        }).format(job.salary[1])}
+                        }).format(jobApplication.salary[1])}
                       </>
                     ) : (
                       <>
@@ -83,12 +91,12 @@ export function JobApplicationCard({ className, job, columns }: JobApplicationCa
                             style: "currency",
                             currency: "USD",
                             notation: "compact",
-                          }).format(job.salary[0]),
+                          }).format(jobApplication.salary[0]),
                           new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: "USD",
                             notation: "compact",
-                          }).format(job.salary[1]),
+                          }).format(jobApplication.salary[1]),
                         ].join(" - ")}
                       </>
                     )}
@@ -96,51 +104,53 @@ export function JobApplicationCard({ className, job, columns }: JobApplicationCa
                 )}
               </p>
             </div>
-            {job.description && (
-              <p className="line-clamp-2 text-xs text-muted-foreground">{job.description}</p>
+            {jobApplication.description && (
+              <p className="line-clamp-2 text-xs text-muted-foreground">
+                {jobApplication.description}
+              </p>
             )}
-            {job.tags?.length && (
+            {jobApplication.tags?.length && (
               <div className="flex flex-wrap gap-1">
-                {job.tags.map((tag, index) => {
+                {jobApplication.tags.map((tag, index) => {
                   const color = getStringColor(tag);
                   return (
                     <Badge
                       key={`tag-${index}`}
-                      variant="secondary"
+                      variant="outline"
                       className={clsx({
-                        "bg-red-500/10 text-red-500 selection:bg-red-500 selection:text-red-100 dark:selection:text-red-900":
+                        "border-red-500/20 bg-red-500/10 text-red-500 selection:bg-red-500 selection:text-red-100 dark:selection:text-red-900":
                           color === "red",
-                        "bg-orange-500/10 text-orange-500 selection:bg-orange-500 selection:text-orange-100 dark:selection:text-orange-900":
+                        "border-orange-500/20 bg-orange-500/10 text-orange-500 selection:bg-orange-500 selection:text-orange-100 dark:selection:text-orange-900":
                           color === "orange",
-                        "bg-amber-500/10 text-amber-500 selection:bg-amber-500 selection:text-amber-100 dark:selection:text-amber-900":
+                        "border-amber-500/20 bg-amber-500/10 text-amber-500 selection:bg-amber-500 selection:text-amber-100 dark:selection:text-amber-900":
                           color === "amber",
-                        "bg-yellow-500/10 text-yellow-500 selection:bg-yellow-500 selection:text-yellow-100 dark:selection:text-yellow-900":
+                        "border-yellow-500/20 bg-yellow-500/10 text-yellow-500 selection:bg-yellow-500 selection:text-yellow-100 dark:selection:text-yellow-900":
                           color === "yellow",
-                        "bg-lime-500/10 text-lime-500 selection:bg-lime-500 selection:text-lime-100 dark:selection:text-lime-900":
+                        "border-lime-500/20 bg-lime-500/10 text-lime-500 selection:bg-lime-500 selection:text-lime-100 dark:selection:text-lime-900":
                           color === "lime",
-                        "bg-green-500/10 text-green-500 selection:bg-green-500 selection:text-green-100 dark:selection:text-green-900":
+                        "border-green-500/20 bg-green-500/10 text-green-500 selection:bg-green-500 selection:text-green-100 dark:selection:text-green-900":
                           color === "green",
-                        "bg-emerald-500/10 text-emerald-500 selection:bg-emerald-500 selection:text-emerald-100 dark:selection:text-emerald-900":
+                        "border-emerald-500/20 bg-emerald-500/10 text-emerald-500 selection:bg-emerald-500 selection:text-emerald-100 dark:selection:text-emerald-900":
                           color === "emerald",
-                        "bg-teal-500/10 text-teal-500 selection:bg-teal-500 selection:text-teal-100 dark:selection:text-teal-900":
+                        "border-teal-500/20 bg-teal-500/10 text-teal-500 selection:bg-teal-500 selection:text-teal-100 dark:selection:text-teal-900":
                           color === "teal",
-                        "bg-cyan-500/10 text-cyan-500 selection:bg-cyan-500 selection:text-cyan-100 dark:selection:text-cyan-900":
+                        "border-cyan-500/20 bg-cyan-500/10 text-cyan-500 selection:bg-cyan-500 selection:text-cyan-100 dark:selection:text-cyan-900":
                           color === "cyan",
-                        "bg-sky-500/10 text-sky-500 selection:bg-sky-500 selection:text-sky-100 dark:selection:text-sky-900":
+                        "border-sky-500/20 bg-sky-500/10 text-sky-500 selection:bg-sky-500 selection:text-sky-100 dark:selection:text-sky-900":
                           color === "sky",
-                        "bg-blue-500/10 text-blue-500 selection:bg-blue-500 selection:text-blue-100 dark:selection:text-blue-900":
+                        "border-blue-500/20 bg-blue-500/10 text-blue-500 selection:bg-blue-500 selection:text-blue-100 dark:selection:text-blue-900":
                           color === "blue",
-                        "bg-indigo-500/10 text-indigo-500 selection:bg-indigo-500 selection:text-indigo-100 dark:selection:text-indigo-900":
+                        "border-indigo-500/20 bg-indigo-500/10 text-indigo-500 selection:bg-indigo-500 selection:text-indigo-100 dark:selection:text-indigo-900":
                           color === "indigo",
-                        "bg-violet-500/10 text-violet-500 selection:bg-violet-500 selection:text-violet-100 dark:selection:text-violet-900":
+                        "border-violet-500/20 bg-violet-500/10 text-violet-500 selection:bg-violet-500 selection:text-violet-100 dark:selection:text-violet-900":
                           color === "violet",
-                        "bg-purple-500/10 text-purple-500 selection:bg-purple-500 selection:text-purple-100 dark:selection:text-purple-900":
+                        "border-purple-500/20 bg-purple-500/10 text-purple-500 selection:bg-purple-500 selection:text-purple-100 dark:selection:text-purple-900":
                           color === "purple",
-                        "bg-fuchsia-500/10 text-fuchsia-500 selection:bg-fuchsia-500 selection:text-fuchsia-100 dark:selection:text-fuchsia-900":
+                        "border-fuchsia-500/20 bg-fuchsia-500/10 text-fuchsia-500 selection:bg-fuchsia-500 selection:text-fuchsia-100 dark:selection:text-fuchsia-900":
                           color === "fuchsia",
-                        "bg-pink-500/10 text-pink-500 selection:bg-pink-500 selection:text-pink-100 dark:selection:text-pink-900":
+                        "border-pink-500/20 bg-pink-500/10 text-pink-500 selection:bg-pink-500 selection:text-pink-100 dark:selection:text-pink-900":
                           color === "pink",
-                        "bg-rose-500/10 text-rose-500 selection:bg-rose-500 selection:text-rose-100 dark:selection:text-rose-900":
+                        "border-rose-500/20 bg-rose-500/10 text-rose-500 selection:bg-rose-500 selection:text-rose-100 dark:selection:text-rose-900":
                           color === "rose",
                       })}
                     >
@@ -151,10 +161,36 @@ export function JobApplicationCard({ className, job, columns }: JobApplicationCa
               </div>
             )}
           </div>
-          <JobApplicationMenu
-            jobApplication={job}
-            otherColumns={columns.filter((column) => column._id !== job.columnId)}
-          />
+          <div className="flex flex-col justify-between gap-4">
+            <JobApplicationMenu
+              jobApplication={jobApplication}
+              otherColumns={columns.filter((column) => column._id !== jobApplication.columnId)}
+            />
+            <div className="flex flex-col">
+              <Button
+                variant="ghost"
+                size="icon"
+                disabled={!currentColumn || jobApplication.order <= 0}
+                onClick={() => {
+                  updateJobApplication(jobApplication._id, { order: jobApplication.order - 1 });
+                }}
+              >
+                <ArrowUp />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                disabled={
+                  !currentColumn || jobApplication.order >= currentColumn.jobApplications.length - 1
+                }
+                onClick={() => {
+                  updateJobApplication(jobApplication._id, { order: jobApplication.order + 1 });
+                }}
+              >
+                <ArrowDown />
+              </Button>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -186,40 +222,29 @@ function JobApplicationMenu({
             <Edit2 className="size-4" />
             Edit
           </DropdownMenuItem>
-          {otherColumns.length > 1 &&
-            otherColumns.map((column, key) => (
-              <DropdownMenuItem
-                key={key}
-                className={clsx({
-                  "focus:bg-red-500/10 focus:text-red-500": column.color === "red",
-                  "focus:bg-orange-500/10 focus:text-orange-500": column.color === "orange",
-                  "focus:bg-amber-500/10 focus:text-amber-500": column.color === "amber",
-                  "focus:bg-yellow-500/10 focus:text-yellow-500": column.color === "yellow",
-                  "focus:bg-lime-500/10 focus:text-lime-500": column.color === "lime",
-                  "focus:bg-green-500/10 focus:text-green-500": column.color === "green",
-                  "focus:bg-emerald-500/10 focus:text-emerald-500": column.color === "emerald",
-                  "focus:bg-teal-500/10 focus:text-teal-500": column.color === "teal",
-                  "focus:bg-cyan-500/10 focus:text-cyan-500": column.color === "cyan",
-                  "focus:bg-sky-500/10 focus:text-sky-500": column.color === "sky",
-                  "focus:bg-blue-500/10 focus:text-blue-500": column.color === "blue",
-                  "focus:bg-indigo-500/10 focus:text-indigo-500": column.color === "indigo",
-                  "focus:bg-violet-500/10 focus:text-violet-500": column.color === "violet",
-                  "focus:bg-purple-500/10 focus:text-purple-500": column.color === "purple",
-                  "focus:bg-fuchsia-500/10 focus:text-fuchsia-500": column.color === "fuchsia",
-                  "focus:bg-pink-500/10 focus:text-pink-500": column.color === "pink",
-                  "focus:bg-rose-500/10 focus:text-rose-500": column.color === "rose",
-                })}
-                onClick={() => {
-                  updateJobApplication(jobApplication._id, { columnId: column._id }).catch(
-                    (error) => {
-                      console.error("Failed to move job application:", error);
-                    },
-                  );
-                }}
-              >
-                Move to {column.name}
-              </DropdownMenuItem>
-            ))}
+          {otherColumns.length > 1 && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                {otherColumns.map((column, key) => (
+                  <DropdownMenuItem
+                    key={key}
+                    variant={column.color || "default"}
+                    onClick={() => {
+                      updateJobApplication(jobApplication._id, { columnId: column._id }).catch(
+                        (error) => {
+                          console.error("Failed to move job application:", error);
+                        },
+                      );
+                    }}
+                  >
+                    Move to {column.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem
             variant="destructive"
             onClick={() => {

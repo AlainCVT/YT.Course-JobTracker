@@ -53,7 +53,7 @@ function KanbanDroppableColumn({
   sortedColumns: PopulatedColumnType[];
 }) {
   const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
-  const sortedJobs = column.jobApplications.sort((a, b) => a.order - b.order) || [];
+  const sortedJobApplications = column.jobApplications.sort((a, b) => a.order - b.order) || [];
 
   return (
     <Card
@@ -138,10 +138,10 @@ function KanbanDroppableColumn({
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
-        {sortedJobs.map((job, index) => (
-          <KanbanSortableJobCard
-            key={`job-card-${index}`}
-            job={{ ...job, columnId: job.columnId || column._id }}
+        {sortedJobApplications.map((jobApplication, index) => (
+          <KanbanSortableJobApplicationCard
+            key={`job-application-card-${index}`}
+            jobApplication={{ ...jobApplication, columnId: jobApplication.columnId || column._id }}
             columns={sortedColumns}
             color={column.color}
           />
@@ -154,7 +154,7 @@ function KanbanDroppableColumn({
           columnName={column.name}
           trigger={
             <Button variant={column.color ? `outline-${column.color}` : "outline"}>
-              <Plus /> Add job
+              <Plus /> Add job application
             </Button>
           }
         />
@@ -163,12 +163,12 @@ function KanbanDroppableColumn({
   );
 }
 
-function KanbanSortableJobCard({
-  job,
+function KanbanSortableJobApplicationCard({
+  jobApplication,
   columns,
   color,
 }: {
-  job: PopulatedJobApplicationType;
+  jobApplication: PopulatedJobApplicationType;
   columns: PopulatedColumnType[];
   color: PopulatedColumnType["color"];
 }) {
@@ -194,7 +194,7 @@ function KanbanSortableJobCard({
           "ring-pink-500/20": color === "pink",
           "ring-rose-500/20": color === "rose",
         })}
-        job={job}
+        jobApplication={jobApplication}
         columns={columns}
       />
     </div>
