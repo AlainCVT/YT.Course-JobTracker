@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Roboto } from "next/font/google";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/contexts/theme";

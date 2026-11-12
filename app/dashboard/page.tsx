@@ -62,12 +62,14 @@ async function DashboardContent() {
   const board = await getBoard(session.user.id);
 
   return (
-    <Container className="flex flex-1 flex-col gap-12 py-8">
-      <div>
-        <h1 className="text-3xl font-bold">Job Hunt</h1>
-        <p className="text-muted-foreground">Track your job applications</p>
+    <div className="flex flex-1 flex-col gap-12 overflow-x-auto py-12">
+      <div className="sticky left-0">
+        <Container>
+          <h1 className="text-3xl font-bold">Job Hunt</h1>
+          <p className="text-muted-foreground">Track your job applications</p>
+        </Container>
       </div>
-      <KanbanBoard board={board} userId={session.user.id} />
-    </Container>
+      <KanbanBoard board={board} />
+    </div>
   );
 }

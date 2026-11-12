@@ -1,0 +1,27 @@
+@source inline(
+  "{text-,hover:text-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-900"
+);
+
+@source inline(
+  "{hover:bg-,dark:hover:bg-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500/5"
+);
+
+@source inline(
+  "focus-visible:border-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500"
+);
+
+@source inline(
+  "focus-visible:ring-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500/50"
+);
+
+@source inline(
+  "aria-expanded:bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500/20"
+);
+
+@source inline(
+  "{dark:text-,dark:hover:text-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-100"
+);
+
+@source inline(
+  "{border-,dark:border-}{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500/20"
+);

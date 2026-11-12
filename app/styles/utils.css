@@ -1,0 +1,37 @@
+@utility px-container {
+  padding-inline: max(0px, calc((100vw - var(--container-spacing-width, 100vw)) / 2));
+}
+
+@utility mx-container {
+  margin-inline: max(0px, calc((100vw - var(--container-spacing-width, 100vw)) / 2));
+}
+
+@media (width >= 40rem) {
+  :root {
+    --container-spacing-width: 40rem;
+  }
+}
+
+@media (width >= 48rem) {
+  :root {
+    --container-spacing-width: 48rem;
+  }
+}
+
+@media (width >= 64rem) {
+  :root {
+    --container-spacing-width: 64rem;
+  }
+}
+
+@media (width >= 80rem) {
+  :root {
+    --container-spacing-width: 80rem;
+  }
+}
+
+@media (width >= 96rem) {
+  :root {
+    --container-spacing-width: 96rem;
+  }
+}

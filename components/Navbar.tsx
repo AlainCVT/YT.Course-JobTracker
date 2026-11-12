@@ -23,7 +23,7 @@ export default function Navbar() {
   const { toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
       <Container as="nav" className="flex h-16 items-center justify-between">
         <Button
           className="gap-2 py-6 text-xl font-semibold"
@@ -42,13 +42,18 @@ export default function Navbar() {
                 Dashboard
               </Button>
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <Button
+                  render={<DropdownMenuTrigger />}
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                >
                   <Avatar>
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {session.user.name[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                </DropdownMenuTrigger>
+                </Button>
                 <DropdownMenuContent className="w-3xs" align="end">
                   <DropdownMenuGroup>
                     <DropdownMenuLabel className="font-normal">
