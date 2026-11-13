@@ -1,0 +1,241 @@
+@utility card-ui-red {
+  &.card-ui.group\/card {
+    @apply bg-red-100/10 ring-red-500/20 dark:bg-red-900/10;
+
+    &.card-ui-active {
+      @apply ring-red-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-red-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-orange {
+  &.card-ui.group\/card {
+    @apply bg-orange-100/10 ring-orange-500/20 dark:bg-orange-900/10;
+
+    &.card-ui-active {
+      @apply ring-orange-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-orange-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-amber {
+  &.card-ui.group\/card {
+    @apply bg-amber-100/10 ring-amber-500/20 dark:bg-amber-900/10;
+
+    &.card-ui-active {
+      @apply ring-amber-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-amber-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-yellow {
+  &.card-ui.group\/card {
+    @apply bg-yellow-100/10 ring-yellow-500/20 dark:bg-yellow-900/10;
+
+    &.card-ui-active {
+      @apply ring-yellow-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-yellow-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-lime {
+  &.card-ui.group\/card {
+    @apply bg-lime-100/10 ring-lime-500/20 dark:bg-lime-900/10;
+
+    &.card-ui-active {
+      @apply ring-lime-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-lime-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-green {
+  &.card-ui.group\/card {
+    @apply bg-green-100/10 ring-green-500/20 dark:bg-green-900/10;
+
+    &.card-ui-active {
+      @apply ring-green-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-green-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-emerald {
+  &.card-ui.group\/card {
+    @apply bg-emerald-100/10 ring-emerald-500/20 dark:bg-emerald-900/10;
+
+    &.card-ui-active {
+      @apply ring-emerald-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-emerald-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-teal {
+  &.card-ui.group\/card {
+    @apply bg-teal-100/10 ring-teal-500/20 dark:bg-teal-900/10;
+
+    &.card-ui-active {
+      @apply ring-teal-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-teal-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-cyan {
+  &.card-ui.group\/card {
+    @apply bg-cyan-100/10 ring-cyan-500/20 dark:bg-cyan-900/10;
+
+    &.card-ui-active {
+      @apply ring-cyan-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-cyan-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-sky {
+  &.card-ui.group\/card {
+    @apply bg-sky-100/10 ring-sky-500/20 dark:bg-sky-900/10;
+
+    &.card-ui-active {
+      @apply ring-sky-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-sky-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-blue {
+  &.card-ui.group\/card {
+    @apply bg-blue-100/10 ring-blue-500/20 dark:bg-blue-900/10;
+
+    &.card-ui-active {
+      @apply ring-blue-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-blue-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-indigo {
+  &.card-ui.group\/card {
+    @apply bg-indigo-100/10 ring-indigo-500/20 dark:bg-indigo-900/10;
+
+    &.card-ui-active {
+      @apply ring-indigo-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-indigo-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-violet {
+  &.card-ui.group\/card {
+    @apply bg-violet-100/10 ring-violet-500/20 dark:bg-violet-900/10;
+
+    &.card-ui-active {
+      @apply ring-violet-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-violet-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-purple {
+  &.card-ui.group\/card {
+    @apply bg-purple-100/10 ring-purple-500/20 dark:bg-purple-900/10;
+
+    &.card-ui-active {
+      @apply ring-purple-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-purple-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-fuchsia {
+  &.card-ui.group\/card {
+    @apply bg-fuchsia-100/10 ring-fuchsia-500/20 dark:bg-fuchsia-900/10;
+
+    &.card-ui-active {
+      @apply ring-fuchsia-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-fuchsia-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-pink {
+  &.card-ui.group\/card {
+    @apply bg-pink-100/10 ring-pink-500/20 dark:bg-pink-900/10;
+
+    &.card-ui-active {
+      @apply ring-pink-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-pink-500/20 dark:bg-background;
+    }
+  }
+}
+
+@utility card-ui-rose {
+  &.card-ui.group\/card {
+    @apply bg-rose-100/10 ring-rose-500/20 dark:bg-rose-900/10;
+
+    &.card-ui-active {
+      @apply ring-rose-500/80;
+    }
+
+    .group\/card {
+      @apply bg-background ring-rose-500/20 dark:bg-background;
+    }
+  }
+}
+
+@source inline(
+  "card-ui-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+);

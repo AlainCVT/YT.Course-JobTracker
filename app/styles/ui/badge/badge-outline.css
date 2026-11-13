@@ -1,0 +1,71 @@
+@utility badge-outline-red {
+  @apply badge-tinted-red border-red-500/20;
+}
+
+@utility badge-outline-orange {
+  @apply badge-tinted-orange border-orange-500/20;
+}
+
+@utility badge-outline-amber {
+  @apply badge-tinted-amber border-amber-500/20;
+}
+
+@utility badge-outline-yellow {
+  @apply badge-tinted-yellow border-yellow-500/20;
+}
+
+@utility badge-outline-lime {
+  @apply badge-tinted-lime border-lime-500/20;
+}
+
+@utility badge-outline-green {
+  @apply badge-tinted-green border-green-500/20;
+}
+
+@utility badge-outline-emerald {
+  @apply badge-tinted-emerald border-emerald-500/20;
+}
+
+@utility badge-outline-teal {
+  @apply badge-tinted-teal border-teal-500/20;
+}
+
+@utility badge-outline-cyan {
+  @apply badge-tinted-cyan border-cyan-500/20;
+}
+
+@utility badge-outline-sky {
+  @apply badge-tinted-sky border-sky-500/20;
+}
+
+@utility badge-outline-blue {
+  @apply badge-tinted-blue border-blue-500/20;
+}
+
+@utility badge-outline-indigo {
+  @apply badge-tinted-indigo border-indigo-500/20;
+}
+
+@utility badge-outline-violet {
+  @apply badge-tinted-violet border-violet-500/20;
+}
+
+@utility badge-outline-purple {
+  @apply badge-tinted-purple border-purple-500/20;
+}
+
+@utility badge-outline-fuchsia {
+  @apply badge-tinted-fuchsia border-fuchsia-500/20;
+}
+
+@utility badge-outline-pink {
+  @apply badge-tinted-pink border-pink-500/20;
+}
+
+@utility badge-outline-rose {
+  @apply badge-tinted-rose border-rose-500/20;
+}
+
+@source inline(
+  "badge-outline-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+);

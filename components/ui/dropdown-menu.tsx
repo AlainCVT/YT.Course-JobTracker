@@ -8,13 +8,10 @@ import * as React from "react";
 import { UI_COLORS } from "@/lib/constants";
 
 const VARIANTS_ITEM_COLORS = UI_COLORS.reduce(
-  (acc, color) => {
-    const style = `focus:bg-${color}-500/10 focus:text-${color}-500`;
-    return {
-      ...acc,
-      [color]: style,
-    };
-  },
+  (acc, color) => ({
+    ...acc,
+    [color]: `dropdown-menu-item-${color}`,
+  }),
   {} as Record<(typeof UI_COLORS)[number], string>,
 );
 

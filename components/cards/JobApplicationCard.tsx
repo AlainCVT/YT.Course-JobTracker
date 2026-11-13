@@ -38,6 +38,12 @@ interface JobApplicationCardProps {
   onMoveJobApplication?: MoveJobApplicationHandler;
 }
 
+const compactUsdFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  notation: "compact",
+});
+
 export default forwardRef<
   ComponentRef<typeof Card>,
   JobApplicationCardProps & ComponentPropsWithoutRef<typeof Card>
@@ -98,36 +104,14 @@ export default forwardRef<
                     className="bg-muted text-muted-foreground selection:bg-muted-foreground selection:text-muted"
                   >
                     {!jobApplication.salary[1] ? (
-                      <>
-                        &ge;{" "}
-                        {new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                          notation: "compact",
-                        }).format(jobApplication.salary[0])}
-                      </>
+                      <>&ge; {compactUsdFormatter.format(jobApplication.salary[0])}</>
                     ) : !jobApplication.salary[0] ? (
-                      <>
-                        &le;{" "}
-                        {new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                          notation: "compact",
-                        }).format(jobApplication.salary[1])}
-                      </>
+                      <>&le; {compactUsdFormatter.format(jobApplication.salary[1])}</>
                     ) : (
                       <>
                         {[
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            notation: "compact",
-                          }).format(jobApplication.salary[0]),
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            notation: "compact",
-                          }).format(jobApplication.salary[1]),
+                          compactUsdFormatter.format(jobApplication.salary[0]),
+                          compactUsdFormatter.format(jobApplication.salary[1]),
                         ].join(" - ")}
                       </>
                     )}
@@ -147,14 +131,14 @@ export default forwardRef<
             )}
             {jobApplication.tags?.length && (
               <div className="flex flex-wrap gap-1">
-                {jobApplication.tags.map((tag, index) => {
-                  const color = getStringColor(tag);
-                  return (
-                    <Badge key={`tag-${index}`} variant={color || "ghost"}>
-                      {tag}
-                    </Badge>
-                  );
-                })}
+                {jobApplication.tags.map((tag, index) => (
+                  <Badge
+                    key={`tag-${index}`}
+                    variant={`tinted-${getStringColor(tag)}` || "secondary"}
+                  >
+                    {tag}
+                  </Badge>
+                ))}
               </div>
             )}
           </div>

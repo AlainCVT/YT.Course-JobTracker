@@ -1,0 +1,71 @@
+@utility dropdown-menu-item-red {
+  @apply focus:bg-red-500/10 focus:text-red-500;
+}
+
+@utility dropdown-menu-item-orange {
+  @apply focus:bg-orange-500/10 focus:text-orange-500;
+}
+
+@utility dropdown-menu-item-amber {
+  @apply focus:bg-amber-500/10 focus:text-amber-500;
+}
+
+@utility dropdown-menu-item-yellow {
+  @apply focus:bg-yellow-500/10 focus:text-yellow-500;
+}
+
+@utility dropdown-menu-item-lime {
+  @apply focus:bg-lime-500/10 focus:text-lime-500;
+}
+
+@utility dropdown-menu-item-green {
+  @apply focus:bg-green-500/10 focus:text-green-500;
+}
+
+@utility dropdown-menu-item-emerald {
+  @apply focus:bg-emerald-500/10 focus:text-emerald-500;
+}
+
+@utility dropdown-menu-item-teal {
+  @apply focus:bg-teal-500/10 focus:text-teal-500;
+}
+
+@utility dropdown-menu-item-cyan {
+  @apply focus:bg-cyan-500/10 focus:text-cyan-500;
+}
+
+@utility dropdown-menu-item-sky {
+  @apply focus:bg-sky-500/10 focus:text-sky-500;
+}
+
+@utility dropdown-menu-item-blue {
+  @apply focus:bg-blue-500/10 focus:text-blue-500;
+}
+
+@utility dropdown-menu-item-indigo {
+  @apply focus:bg-indigo-500/10 focus:text-indigo-500;
+}
+
+@utility dropdown-menu-item-violet {
+  @apply focus:bg-violet-500/10 focus:text-violet-500;
+}
+
+@utility dropdown-menu-item-purple {
+  @apply focus:bg-purple-500/10 focus:text-purple-500;
+}
+
+@utility dropdown-menu-item-fuchsia {
+  @apply focus:bg-fuchsia-500/10 focus:text-fuchsia-500;
+}
+
+@utility dropdown-menu-item-pink {
+  @apply focus:bg-pink-500/10 focus:text-pink-500;
+}
+
+@utility dropdown-menu-item-rose {
+  @apply focus:bg-rose-500/10 focus:text-rose-500;
+}
+
+@source inline(
+  "dropdown-menu-item-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+);

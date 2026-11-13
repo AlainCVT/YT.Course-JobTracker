@@ -1,0 +1,156 @@
+@utility card-ui-header-red {
+  .card-ui & {
+    @apply bg-red-500/10 text-red-900;
+    @apply dark:bg-red-500/10 dark:text-red-100;
+    @apply selection:bg-red-900 selection:text-red-100;
+    @apply dark:selection:bg-red-100 dark:selection:text-red-900;
+  }
+}
+
+@utility card-ui-header-orange {
+  .card-ui & {
+    @apply bg-orange-500/10 text-orange-900;
+    @apply dark:bg-orange-500/10 dark:text-orange-100;
+    @apply selection:bg-orange-900 selection:text-orange-100;
+    @apply dark:selection:bg-orange-100 dark:selection:text-orange-900;
+  }
+}
+
+@utility card-ui-header-amber {
+  .card-ui & {
+    @apply bg-amber-500/10 text-amber-900;
+    @apply dark:bg-amber-500/10 dark:text-amber-100;
+    @apply selection:bg-amber-900 selection:text-amber-100;
+    @apply dark:selection:bg-amber-100 dark:selection:text-amber-900;
+  }
+}
+
+@utility card-ui-header-yellow {
+  .card-ui & {
+    @apply bg-yellow-500/10 text-yellow-900;
+    @apply dark:bg-yellow-500/10 dark:text-yellow-100;
+    @apply selection:bg-yellow-900 selection:text-yellow-100;
+    @apply dark:selection:bg-yellow-100 dark:selection:text-yellow-900;
+  }
+}
+
+@utility card-ui-header-lime {
+  .card-ui & {
+    @apply bg-lime-500/10 text-lime-900;
+    @apply dark:bg-lime-500/10 dark:text-lime-100;
+    @apply selection:bg-lime-900 selection:text-lime-100;
+    @apply dark:selection:bg-lime-100 dark:selection:text-lime-900;
+  }
+}
+
+@utility card-ui-header-green {
+  .card-ui & {
+    @apply bg-green-500/10 text-green-900;
+    @apply dark:bg-green-500/10 dark:text-green-100;
+    @apply selection:bg-green-900 selection:text-green-100;
+    @apply dark:selection:bg-green-100 dark:selection:text-green-900;
+  }
+}
+
+@utility card-ui-header-emerald {
+  .card-ui & {
+    @apply bg-emerald-500/10 text-emerald-900;
+    @apply dark:bg-emerald-500/10 dark:text-emerald-100;
+    @apply selection:bg-emerald-900 selection:text-emerald-100;
+    @apply dark:selection:bg-emerald-100 dark:selection:text-emerald-900;
+  }
+}
+
+@utility card-ui-header-teal {
+  .card-ui & {
+    @apply bg-teal-500/10 text-teal-900;
+    @apply dark:bg-teal-500/10 dark:text-teal-100;
+    @apply selection:bg-teal-900 selection:text-teal-100;
+    @apply dark:selection:bg-teal-100 dark:selection:text-teal-900;
+  }
+}
+
+@utility card-ui-header-cyan {
+  .card-ui & {
+    @apply bg-cyan-500/10 text-cyan-900;
+    @apply dark:bg-cyan-500/10 dark:text-cyan-100;
+    @apply selection:bg-cyan-900 selection:text-cyan-100;
+    @apply dark:selection:bg-cyan-100 dark:selection:text-cyan-900;
+  }
+}
+
+@utility card-ui-header-sky {
+  .card-ui & {
+    @apply bg-sky-500/10 text-sky-900;
+    @apply dark:bg-sky-500/10 dark:text-sky-100;
+    @apply selection:bg-sky-900 selection:text-sky-100;
+    @apply dark:selection:bg-sky-100 dark:selection:text-sky-900;
+  }
+}
+
+@utility card-ui-header-blue {
+  .card-ui & {
+    @apply bg-blue-500/10 text-blue-900;
+    @apply dark:bg-blue-500/10 dark:text-blue-100;
+    @apply selection:bg-blue-900 selection:text-blue-100;
+    @apply dark:selection:bg-blue-100 dark:selection:text-blue-900;
+  }
+}
+
+@utility card-ui-header-indigo {
+  .card-ui & {
+    @apply bg-indigo-500/10 text-indigo-900;
+    @apply dark:bg-indigo-500/10 dark:text-indigo-100;
+    @apply selection:bg-indigo-900 selection:text-indigo-100;
+    @apply dark:selection:bg-indigo-100 dark:selection:text-indigo-900;
+  }
+}
+
+@utility card-ui-header-violet {
+  .card-ui & {
+    @apply bg-violet-500/10 text-violet-900;
+    @apply dark:bg-violet-500/10 dark:text-violet-100;
+    @apply selection:bg-violet-900 selection:text-violet-100;
+    @apply dark:selection:bg-violet-100 dark:selection:text-violet-900;
+  }
+}
+
+@utility card-ui-header-purple {
+  .card-ui & {
+    @apply bg-purple-500/10 text-purple-900;
+    @apply dark:bg-purple-500/10 dark:text-purple-100;
+    @apply selection:bg-purple-900 selection:text-purple-100;
+    @apply dark:selection:bg-purple-100 dark:selection:text-purple-900;
+  }
+}
+
+@utility card-ui-header-fuchsia {
+  .card-ui & {
+    @apply bg-fuchsia-500/10 text-fuchsia-900;
+    @apply dark:bg-fuchsia-500/10 dark:text-fuchsia-100;
+    @apply selection:bg-fuchsia-900 selection:text-fuchsia-100;
+    @apply dark:selection:bg-fuchsia-100 dark:selection:text-fuchsia-900;
+  }
+}
+
+@utility card-ui-header-pink {
+  .card-ui & {
+    @apply bg-pink-500/10 text-pink-900;
+    @apply dark:bg-pink-500/10 dark:text-pink-100;
+    @apply selection:bg-pink-900 selection:text-pink-100;
+    @apply dark:selection:bg-pink-100 dark:selection:text-pink-900;
+  }
+}
+
+@utility card-ui-header-rose {
+  .card-ui & {
+    @apply bg-rose-500/10 text-rose-900;
+    @apply dark:bg-rose-500/10 dark:text-rose-100;
+    @apply selection:bg-rose-900 selection:text-rose-100;
+    @apply dark:selection:bg-rose-100 dark:selection:text-rose-900;
+  }
+}
+
+@source inline(
+  "card-ui-header-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+);

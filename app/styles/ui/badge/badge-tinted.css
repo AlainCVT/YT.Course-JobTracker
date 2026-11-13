@@ -1,0 +1,156 @@
+@utility badge-tinted-red {
+  @apply bg-red-500/10 text-red-500 selection:bg-red-500 [a]:hover:bg-red-500/20;
+  @apply focus-visible:border-red-300 focus-visible:ring-red-300/50 focus-visible:outline-red-300;
+  @apply dark:focus-visible:border-red-700 dark:focus-visible:ring-red-700/50 dark:focus-visible:outline-red-700;
+  @apply selection:text-red-100;
+  @apply dark:selection:text-red-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-orange {
+  @apply bg-orange-500/10 text-orange-500 selection:bg-orange-500 [a]:hover:bg-orange-500/20;
+  @apply focus-visible:border-orange-300 focus-visible:ring-orange-300/50 focus-visible:outline-orange-300;
+  @apply dark:focus-visible:border-orange-700 dark:focus-visible:ring-orange-700/50 dark:focus-visible:outline-orange-700;
+  @apply selection:text-orange-100;
+  @apply dark:selection:text-orange-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-amber {
+  @apply bg-amber-500/10 text-amber-500 selection:bg-amber-500 [a]:hover:bg-amber-500/20;
+  @apply focus-visible:border-amber-300 focus-visible:ring-amber-300/50 focus-visible:outline-amber-300;
+  @apply dark:focus-visible:border-amber-700 dark:focus-visible:ring-amber-700/50 dark:focus-visible:outline-amber-700;
+  @apply selection:text-amber-100;
+  @apply dark:selection:text-amber-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-yellow {
+  @apply bg-yellow-500/10 text-yellow-500 selection:bg-yellow-500 [a]:hover:bg-yellow-500/20;
+  @apply focus-visible:border-yellow-300 focus-visible:ring-yellow-300/50 focus-visible:outline-yellow-300;
+  @apply dark:focus-visible:border-yellow-700 dark:focus-visible:ring-yellow-700/50 dark:focus-visible:outline-yellow-700;
+  @apply selection:text-yellow-100;
+  @apply dark:selection:text-yellow-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-lime {
+  @apply bg-lime-500/10 text-lime-500 selection:bg-lime-500 [a]:hover:bg-lime-500/20;
+  @apply focus-visible:border-lime-300 focus-visible:ring-lime-300/50 focus-visible:outline-lime-300;
+  @apply dark:focus-visible:border-lime-700 dark:focus-visible:ring-lime-700/50 dark:focus-visible:outline-lime-700;
+  @apply selection:text-lime-100;
+  @apply dark:selection:text-lime-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-green {
+  @apply bg-green-500/10 text-green-500 selection:bg-green-500 [a]:hover:bg-green-500/20;
+  @apply focus-visible:border-green-300 focus-visible:ring-green-300/50 focus-visible:outline-green-300;
+  @apply dark:focus-visible:border-green-700 dark:focus-visible:ring-green-700/50 dark:focus-visible:outline-green-700;
+  @apply selection:text-green-100;
+  @apply dark:selection:text-green-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-emerald {
+  @apply bg-emerald-500/10 text-emerald-500 selection:bg-emerald-500 [a]:hover:bg-emerald-500/20;
+  @apply focus-visible:border-emerald-300 focus-visible:ring-emerald-300/50 focus-visible:outline-emerald-300;
+  @apply dark:focus-visible:border-emerald-700 dark:focus-visible:ring-emerald-700/50 dark:focus-visible:outline-emerald-700;
+  @apply selection:text-emerald-100;
+  @apply dark:selection:text-emerald-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-teal {
+  @apply bg-teal-500/10 text-teal-500 selection:bg-teal-500 [a]:hover:bg-teal-500/20;
+  @apply focus-visible:border-teal-300 focus-visible:ring-teal-300/50 focus-visible:outline-teal-300;
+  @apply dark:focus-visible:border-teal-700 dark:focus-visible:ring-teal-700/50 dark:focus-visible:outline-teal-700;
+  @apply selection:text-teal-100;
+  @apply dark:selection:text-teal-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-cyan {
+  @apply bg-cyan-500/10 text-cyan-500 selection:bg-cyan-500 [a]:hover:bg-cyan-500/20;
+  @apply focus-visible:border-cyan-300 focus-visible:ring-cyan-300/50 focus-visible:outline-cyan-300;
+  @apply dark:focus-visible:border-cyan-700 dark:focus-visible:ring-cyan-700/50 dark:focus-visible:outline-cyan-700;
+  @apply selection:text-cyan-100;
+  @apply dark:selection:text-cyan-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-sky {
+  @apply bg-sky-500/10 text-sky-500 selection:bg-sky-500 [a]:hover:bg-sky-500/20;
+  @apply focus-visible:border-sky-300 focus-visible:ring-sky-300/50 focus-visible:outline-sky-300;
+  @apply dark:focus-visible:border-sky-700 dark:focus-visible:ring-sky-700/50 dark:focus-visible:outline-sky-700;
+  @apply selection:text-sky-100;
+  @apply dark:selection:text-sky-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-blue {
+  @apply bg-blue-500/10 text-blue-500 selection:bg-blue-500 [a]:hover:bg-blue-500/20;
+  @apply focus-visible:border-blue-300 focus-visible:ring-blue-300/50 focus-visible:outline-blue-300;
+  @apply dark:focus-visible:border-blue-700 dark:focus-visible:ring-blue-700/50 dark:focus-visible:outline-blue-700;
+  @apply selection:text-blue-100;
+  @apply dark:selection:text-blue-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-indigo {
+  @apply bg-indigo-500/10 text-indigo-500 selection:bg-indigo-500 [a]:hover:bg-indigo-500/20;
+  @apply focus-visible:border-indigo-300 focus-visible:ring-indigo-300/50 focus-visible:outline-indigo-300;
+  @apply dark:focus-visible:border-indigo-700 dark:focus-visible:ring-indigo-700/50 dark:focus-visible:outline-indigo-700;
+  @apply selection:text-indigo-100;
+  @apply dark:selection:text-indigo-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-violet {
+  @apply bg-violet-500/10 text-violet-500 selection:bg-violet-500 [a]:hover:bg-violet-500/20;
+  @apply focus-visible:border-violet-300 focus-visible:ring-violet-300/50 focus-visible:outline-violet-300;
+  @apply dark:focus-visible:border-violet-700 dark:focus-visible:ring-violet-700/50 dark:focus-visible:outline-violet-700;
+  @apply selection:text-violet-100;
+  @apply dark:selection:text-violet-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-purple {
+  @apply bg-purple-500/10 text-purple-500 selection:bg-purple-500 [a]:hover:bg-purple-500/20;
+  @apply focus-visible:border-purple-300 focus-visible:ring-purple-300/50 focus-visible:outline-purple-300;
+  @apply dark:focus-visible:border-purple-700 dark:focus-visible:ring-purple-700/50 dark:focus-visible:outline-purple-700;
+  @apply selection:text-purple-100;
+  @apply dark:selection:text-purple-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-fuchsia {
+  @apply bg-fuchsia-500/10 text-fuchsia-500 selection:bg-fuchsia-500 [a]:hover:bg-fuchsia-500/20;
+  @apply focus-visible:border-fuchsia-300 focus-visible:ring-fuchsia-300/50 focus-visible:outline-fuchsia-300;
+  @apply dark:focus-visible:border-fuchsia-700 dark:focus-visible:ring-fuchsia-700/50 dark:focus-visible:outline-fuchsia-700;
+  @apply selection:text-fuchsia-100;
+  @apply dark:selection:text-fuchsia-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-pink {
+  @apply bg-pink-500/10 text-pink-500 selection:bg-pink-500 [a]:hover:bg-pink-500/20;
+  @apply focus-visible:border-pink-300 focus-visible:ring-pink-300/50 focus-visible:outline-pink-300;
+  @apply dark:focus-visible:border-pink-700 dark:focus-visible:ring-pink-700/50 dark:focus-visible:outline-pink-700;
+  @apply selection:text-pink-100;
+  @apply dark:selection:text-pink-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-rose {
+  @apply bg-rose-500/10 text-rose-500 selection:bg-rose-500 [a]:hover:bg-rose-500/20;
+  @apply focus-visible:border-rose-300 focus-visible:ring-rose-300/50 focus-visible:outline-rose-300;
+  @apply dark:focus-visible:border-rose-700 dark:focus-visible:ring-rose-700/50 dark:focus-visible:outline-rose-700;
+  @apply selection:text-rose-100;
+  @apply dark:selection:text-rose-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@source inline(
+  "badge-tinted-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+);

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-import Container from "@/components/Container";
 import KanbanBoard from "@/components/KanbanBoard";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
@@ -27,6 +26,9 @@ const getBoard = async (userId: string): Promise<PopulatedBoardType | null> => {
     userId,
   }).populate<Pick<PopulatedBoardType, "columns">>({
     path: "columns",
+    options: {
+      sort: { order: 1 },
+    },
     populate: {
       path: "jobApplications",
       options: {
