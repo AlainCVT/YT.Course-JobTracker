@@ -86,8 +86,8 @@ function DeleteJobApplicationContent({
   return (
     <DialogContent className="max-h-[calc(100vh-1rem*2)] overflow-auto">
       <DialogHeader>
-        <DialogTitle className="text-lg">Delete Job Application</DialogTitle>
-        <DialogDescription>Confirm to remove the job application</DialogDescription>
+        <DialogTitle className="text-lg">Remove Job Application</DialogTitle>
+        <DialogDescription>Confirm to delete the job application</DialogDescription>
       </DialogHeader>
       <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
         <DialogFooter>
@@ -95,7 +95,7 @@ function DeleteJobApplicationContent({
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Remove application"}
+            {loading ? <Loader2 className="animate-spin" /> : "Remove job application"}
           </Button>
         </DialogFooter>
       </form>

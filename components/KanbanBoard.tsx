@@ -16,12 +16,13 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { MoreVertical, Plus, Trash2 } from "lucide-react";
+import { MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { JobApplicationCard } from "@/components/cards/JobApplicationCard";
+import JobApplicationCard from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
-import CreateJobApplicationDialog from "@/components/dialogs/CreateJobApplicationDialog";
+import UpdateBoardDialog from "@/components/dialogs/board/UpdateBoardDialog";
+import CreateJobApplicationDialog from "@/components/dialogs/job-application/CreateJobApplicationDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -130,35 +131,57 @@ export default function KanbanBoard({ board }: KanbanBoardProps) {
   };
 
   return (
-    <DndContext
-      id={`board-${board?._id ?? "empty"}`}
-      sensors={sensors}
-      collisionDetection={kanbanCollisionDetection}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <Container className="flex gap-8" definedBy="margin">
-        {!!board &&
-          columns.map((column) => (
-            <KanbanDroppableColumn
-              key={`droppable-column-${column._id}`}
-              boardId={board._id}
-              column={column}
+    <div className="flex flex-1 flex-col gap-12 overflow-x-auto py-12">
+      <div className="sticky left-0">
+        <Container>
+          {board && (
+            <>
+              <div>
+                <h1 className="inline text-3xl font-bold">{board.name}</h1>
+                <UpdateBoardDialog
+                  payload={board}
+                  trigger={
+                    <Button className="mx-2" variant="link" size="icon-sm">
+                      <Pen />
+                    </Button>
+                  }
+                />
+              </div>
+              {board?.description && <p className="text-muted-foreground">{board.description}</p>}
+            </>
+          )}
+        </Container>
+      </div>
+      <DndContext
+        id={`board-${board?._id ?? "empty"}`}
+        sensors={sensors}
+        collisionDetection={kanbanCollisionDetection}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <Container className="flex gap-8" definedBy="margin">
+          {!!board &&
+            columns.map((column) => (
+              <KanbanDroppableColumn
+                key={`droppable-column-${column._id}`}
+                boardId={board._id}
+                column={column}
+                columns={columns}
+                onMoveJobApplication={moveJobApplication}
+              />
+            ))}
+        </Container>
+        <DragOverlay>
+          {!!overlayJobApplication && (
+            <JobApplicationCard
+              className="cursor-grabbing opacity-50"
+              jobApplication={overlayJobApplication}
               columns={columns}
-              onMoveJobApplication={moveJobApplication}
             />
-          ))}
-      </Container>
-      <DragOverlay>
-        {!!overlayJobApplication && (
-          <JobApplicationCard
-            className="cursor-grabbing opacity-50"
-            jobApplication={overlayJobApplication}
-            columns={columns}
-          />
-        )}
-      </DragOverlay>
-    </DndContext>
+          )}
+        </DragOverlay>
+      </DndContext>
+    </div>
   );
 }
 
@@ -362,21 +385,15 @@ function KanbanSortableJobApplicationCard({
   }, [isDragging]);
 
   return (
-    <div
+    <JobApplicationCard
       ref={setNodeRef}
-      className={isMouseDown ? "cursor-grabbing" : "cursor-grab"}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-      }}
-      onMouseDown={() => setIsMouseDown(true)}
-      onMouseUp={() => setIsMouseDown(false)}
-      onMouseEnter={() => setIsMouseDown(false)}
-      onMouseLeave={() => setIsMouseDown(false)}
-    >
-      <JobApplicationCard
-        className={clsx("bg-background dark:bg-background", {
+      jobApplication={jobApplication}
+      columns={columns}
+      onMoveJobApplication={onMoveJobApplication}
+      className={clsx(
+        isMouseDown ? "cursor-grabbing" : "cursor-grab",
+        "bg-background dark:bg-background",
+        {
           "ring-red-500/20": color === "red",
           "ring-orange-500/20": color === "orange",
           "ring-amber-500/20": color === "amber",
@@ -394,12 +411,18 @@ function KanbanSortableJobApplicationCard({
           "ring-fuchsia-500/20": color === "fuchsia",
           "ring-pink-500/20": color === "pink",
           "ring-rose-500/20": color === "rose",
-        })}
-        jobApplication={jobApplication}
-        columns={columns}
-        onMoveJobApplication={onMoveJobApplication}
-        dragHandleProps={{ ...attributes, tabIndex: -1, ...listeners }}
-      />
-    </div>
+        },
+      )}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+      }}
+      onMouseDown={() => setIsMouseDown(true)}
+      onMouseUp={() => setIsMouseDown(false)}
+      onMouseEnter={() => setIsMouseDown(false)}
+      onMouseLeave={() => setIsMouseDown(false)}
+      {...{ ...attributes, tabIndex: -1, ...listeners }}
+    />
   );
 }

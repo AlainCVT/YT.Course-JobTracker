@@ -17,7 +17,7 @@ export async function initializeUserBoard(userId: string) {
     await connectDB();
 
     // Check if board already exists
-    const existingBoard = await Board.findOne({ userId, name: "Job Hunt" });
+    const existingBoard = await Board.findOne({ userId });
 
     if (existingBoard) {
       const existingColumns = await Column.find({ boardId: existingBoard._id }).sort({ order: 1 });
@@ -27,6 +27,7 @@ export async function initializeUserBoard(userId: string) {
     // Create the board
     const board = await Board.create({
       name: "Job Hunt",
+      description: "Track your job applications",
       userId,
       columns: [],
     });

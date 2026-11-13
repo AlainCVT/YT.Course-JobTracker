@@ -1,4 +1,3 @@
-import { type ClassValue, clsx } from "clsx";
 import {
   ArrowDown,
   ArrowUp,
@@ -8,10 +7,16 @@ import {
   MoreVertical,
   Trash2,
 } from "lucide-react";
-import { type HTMLAttributes, type PointerEvent, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  type ComponentRef,
+  forwardRef,
+  type PointerEvent,
+  useState,
+} from "react";
 
-import DeleteJobApplicationDialog from "@/components/dialogs/DeleteJobApplicationDialog";
-import UpdateJobApplicationDialog from "@/components/dialogs/UpdateJobApplicationDialog";
+import DeleteJobApplicationDialog from "@/components/dialogs/job-application/DeleteJobApplicationDialog";
+import UpdateJobApplicationDialog from "@/components/dialogs/job-application/UpdateJobApplicationDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,20 +33,15 @@ import type { MoveJobApplicationHandler } from "@/lib/hooks/useBoard";
 import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
 interface JobApplicationCardProps {
-  className?: ClassValue;
-  dragHandleProps?: HTMLAttributes<HTMLElement>;
   jobApplication: PopulatedJobApplicationType;
   columns: PopulatedColumnType[];
   onMoveJobApplication?: MoveJobApplicationHandler;
 }
 
-export function JobApplicationCard({
-  className,
-  dragHandleProps,
-  jobApplication,
-  columns,
-  onMoveJobApplication,
-}: JobApplicationCardProps) {
+export default forwardRef<
+  ComponentRef<typeof Card>,
+  JobApplicationCardProps & ComponentPropsWithoutRef<typeof Card>
+>(function JobApplicationCard({ jobApplication, columns, onMoveJobApplication, ...props }, ref) {
   const currentColumn = columns.find((column) => column._id === jobApplication.columnId);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -54,7 +54,7 @@ export function JobApplicationCard({
     const interactiveTarget =
       target instanceof Element
         ? target.closest(
-            'button, a, [role="button"], [role="link"], [role="menu"], [role="menuitem"]',
+            'button, a, [role="button"], [role="dialog"], [role="link"], [role="menu"], [role="menuitem"], [role="presentation"]',
           )
         : null;
 
@@ -62,11 +62,11 @@ export function JobApplicationCard({
       return;
     }
 
-    dragHandleProps?.onPointerDown?.(event);
+    props?.onPointerDown?.(event);
   };
 
   return (
-    <Card className={clsx(className)} {...dragHandleProps} onPointerDown={handlePointerDown}>
+    <Card ref={ref} {...props} onPointerDown={handlePointerDown}>
       <CardContent>
         <div className="grid grid-cols-[1fr_auto] gap-4">
           <div className="flex min-w-0 flex-1 flex-col gap-4">
@@ -207,7 +207,7 @@ export function JobApplicationCard({
       </CardContent>
     </Card>
   );
-}
+});
 
 function JobApplicationMenu({
   jobApplication,
@@ -230,7 +230,7 @@ function JobApplicationMenu({
         <DropdownMenuContent align="end" className="w-48 whitespace-nowrap">
           <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
             <Edit2 className="size-4" />
-            Edit
+            Edit job application
           </DropdownMenuItem>
           {otherColumns.length > 1 && (
             <>

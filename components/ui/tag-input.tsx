@@ -7,18 +7,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-interface TagInputProps {
-  id?: string;
-  name?: string;
-  value?: string[];
-  defaultValue?: string[];
-  onValueChange?: (value: string[]) => void;
-  placeholder?: string;
-  disabled?: boolean;
-  className?: ClassValue;
-}
-
-export function TagInput({
+function TagInput({
   id,
   name,
   value,
@@ -27,7 +16,16 @@ export function TagInput({
   placeholder,
   disabled,
   className,
-}: TagInputProps) {
+}: {
+  id?: string;
+  name?: string;
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  className?: ClassValue;
+}) {
   const [internal, setInternal] = useState<string[]>(defaultValue);
   const [draft, setDraft] = useState<string>("");
 
@@ -92,3 +90,5 @@ export function TagInput({
     </div>
   );
 }
+
+export { TagInput };

@@ -119,7 +119,7 @@ export async function updateJobApplication(
     throw new Error("Unauthorized");
   }
 
-  // Verify if job applications exists and belongs to user
+  // Verify if job application exists and belongs to user
   const currentJobApplication = await JobApplication.findById(id);
 
   if (!currentJobApplication) {
@@ -224,7 +224,7 @@ export async function deleteJobApplication(id: string): Promise<MongooseDeleteRe
     throw new Error("Unauthorized");
   }
 
-  // Verify if job applications exists and belongs to user
+  // Verify if job application exists and belongs to user
   const currentJobApplication = await JobApplication.findById(id);
 
   if (!currentJobApplication) {

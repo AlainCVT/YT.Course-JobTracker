@@ -129,7 +129,7 @@ function CreateJobApplicationContent({
     <DialogContent className="max-h-[calc(100vh-1rem*2)] overflow-auto">
       <DialogHeader>
         <DialogTitle className="text-lg">Add Job Application to {columnName}</DialogTitle>
-        <DialogDescription>Track a new job application</DialogDescription>
+        <DialogDescription>Create a new job application</DialogDescription>
       </DialogHeader>
       <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
         <div className="space-y-4">
@@ -202,7 +202,7 @@ function CreateJobApplicationContent({
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Add application"}
+            {loading ? <Loader2 className="animate-spin" /> : "Add job application"}
           </Button>
         </DialogFooter>
       </form>

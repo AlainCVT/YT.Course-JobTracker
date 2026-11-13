@@ -114,8 +114,8 @@ function UpdateJobApplicationContent({
   return (
     <DialogContent className="max-h-[calc(100vh-1rem*2)] overflow-auto">
       <DialogHeader>
-        <DialogTitle className="text-lg">Update Job Application</DialogTitle>
-        <DialogDescription>Change this job application data</DialogDescription>
+        <DialogTitle className="text-lg">Edit Job Application</DialogTitle>
+        <DialogDescription>Update this job application data</DialogDescription>
       </DialogHeader>
       <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
         <div className="space-y-4">
@@ -195,7 +195,7 @@ function UpdateJobApplicationContent({
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Edit application"}
+            {loading ? <Loader2 className="animate-spin" /> : "Edit job application"}
           </Button>
         </DialogFooter>
       </form>
