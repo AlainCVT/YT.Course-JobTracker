@@ -71,9 +71,7 @@ export function TagInput({
           {tag}
           <button
             type="button"
-            onClick={() => {
-              removeTag(tag);
-            }}
+            onClick={() => removeTag(tag)}
             aria-label={`Remove: ${tag}`}
             className="rounded-full p-0.5 hover:bg-muted-foreground/20"
           >
@@ -83,9 +81,7 @@ export function TagInput({
       ))}
       <input
         value={draft}
-        onChange={(e) => {
-          setDraft(e.target.value);
-        }}
+        onChange={(event) => setDraft(event.target.value)}
         onKeyDown={onKeyDown}
         onBlur={addTag}
         placeholder={tags.length === 0 ? placeholder : undefined}

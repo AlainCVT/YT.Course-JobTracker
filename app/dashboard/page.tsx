@@ -30,6 +30,9 @@ const getBoard = async (userId: string): Promise<PopulatedBoardType | null> => {
     path: "columns",
     populate: {
       path: "jobApplications",
+      options: {
+        sort: { order: 1 },
+      },
     },
   });
 

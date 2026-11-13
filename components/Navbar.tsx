@@ -84,9 +84,7 @@ export default function Navbar() {
             title="Toggle color theme"
             variant="ghost"
             size="icon"
-            onClick={() => {
-              toggleTheme();
-            }}
+            onClick={() => toggleTheme()}
           >
             <Sun className="hidden dark:block" />
             <Moon className="dark:hidden" />

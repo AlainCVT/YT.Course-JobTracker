@@ -1,7 +1,23 @@
 "use client";
 
+import {
+  type CollisionDetection,
+  DndContext,
+  type DragEndEvent,
+  DragOverlay,
+  type DragStartEvent,
+  PointerSensor,
+  pointerWithin,
+  useDndContext,
+  useDroppable,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
 import { MoreVertical, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { JobApplicationCard } from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
@@ -15,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { COLUMNS_ICONS } from "@/lib/constants";
+import { type MoveJobApplicationHandler, useBoard } from "@/lib/hooks/useBoard";
 import type {
   PopulatedBoardType,
   PopulatedColumnType,
@@ -25,38 +42,159 @@ interface KanbanBoardProps {
   board: PopulatedBoardType | null;
 }
 
+type DroppableData = {
+  type: "column";
+  columnId: string;
+  maxOrder: number;
+};
+
+type SortableData = {
+  type: "job-application";
+  jobApplicationId: string;
+  columnId: string;
+  order: number;
+};
+
+const kanbanCollisionDetection: CollisionDetection = (args) => {
+  const collisions = pointerWithin(args).filter((collision) => collision.id !== args.active.id);
+  const jobApplicationsCollisions = collisions.filter(
+    (collision) =>
+      args.droppableContainers.find((container) => container.id === collision.id)?.data.current
+        ?.type === "job-application",
+  );
+
+  return jobApplicationsCollisions.length
+    ? jobApplicationsCollisions
+    : collisions.filter(
+        (collision) =>
+          args.droppableContainers.find((container) => container.id === collision.id)?.data.current
+            ?.type === "column",
+      );
+};
+
 export default function KanbanBoard({ board }: KanbanBoardProps) {
-  const sortedColumns = board?.columns?.sort((a, b) => a.order - b.order) || [];
+  const [overlayId, setOverlayId] = useState<string | null>(null);
+  const { columns, moveJobApplication } = useBoard(board);
+
+  const overlayJobApplication = columns
+    .flatMap((column) => column.jobApplications || [])
+    .find((jobApplication) => jobApplication._id === overlayId?.toString());
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 0,
+      },
+    }),
+  );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setOverlayId(event.active.id.toString());
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    setOverlayId(null);
+
+    if (!over || !board?._id) return;
+
+    const activeId = active.id.toString();
+    const overId = over.id.toString();
+
+    const activeData = active.data.current as SortableData | undefined;
+    const overData = over.data.current as DroppableData | SortableData | undefined;
+
+    if (!activeData || !overData || activeId === overId) return;
+
+    switch (overData.type) {
+      case "column":
+        await moveJobApplication(
+          activeId,
+          activeData.columnId,
+          overId,
+          activeData.order,
+          activeData.columnId === overId ? activeData.order : overData.maxOrder + 1,
+        );
+        break;
+      case "job-application":
+        await moveJobApplication(
+          activeId,
+          activeData.columnId,
+          overData.columnId,
+          activeData.order,
+          overData.order,
+        );
+        break;
+    }
+  };
 
   return (
-    <Container className="flex gap-8" definedBy="margin">
-      {!!board &&
-        board.columns.map((column, index) => (
-          <KanbanDroppableColumn
-            key={`droppable-column-${index}`}
-            boardId={board._id}
-            column={column}
-            sortedColumns={sortedColumns}
+    <DndContext
+      id={`board-${board?._id ?? "empty"}`}
+      sensors={sensors}
+      collisionDetection={kanbanCollisionDetection}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <Container className="flex gap-8" definedBy="margin">
+        {!!board &&
+          columns.map((column) => (
+            <KanbanDroppableColumn
+              key={`droppable-column-${column._id}`}
+              boardId={board._id}
+              column={column}
+              columns={columns}
+              onMoveJobApplication={moveJobApplication}
+            />
+          ))}
+      </Container>
+      <DragOverlay>
+        {!!overlayJobApplication && (
+          <JobApplicationCard
+            className="cursor-grabbing opacity-50"
+            jobApplication={overlayJobApplication}
+            columns={columns}
           />
-        ))}
-    </Container>
+        )}
+      </DragOverlay>
+    </DndContext>
   );
 }
 
 function KanbanDroppableColumn({
   boardId,
   column,
-  sortedColumns,
+  columns,
+  onMoveJobApplication,
 }: {
   column: PopulatedColumnType;
   boardId: string;
-  sortedColumns: PopulatedColumnType[];
+  columns: PopulatedColumnType[];
+  onMoveJobApplication?: MoveJobApplicationHandler;
 }) {
+  const { isOver, setNodeRef } = useDroppable({
+    id: column._id,
+    data: {
+      type: "column",
+      columnId: column._id,
+      maxOrder: column.jobApplications.length
+        ? Math.max(...column.jobApplications.map((jobApplication) => jobApplication.order))
+        : -1,
+    } satisfies DroppableData,
+  });
+  const { over } = useDndContext();
+
+  const overData = over?.data.current as SortableData | undefined;
+  const isJobApplicationOver =
+    overData?.type === "job-application" && overData.columnId === column._id;
+
   const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
-  const sortedJobApplications = column.jobApplications.sort((a, b) => a.order - b.order) || [];
+  const sortedJobApplications = [...column.jobApplications].sort((a, b) => a.order - b.order);
 
   return (
     <Card
+      ref={setNodeRef}
       className={clsx("w-lg shrink-0 p-0 pb-6 shadow-md", {
         "bg-red-100/5 ring-red-500/20 dark:bg-red-900/5": column.color === "red",
         "bg-orange-100/5 ring-orange-500/20 dark:bg-orange-900/5": column.color === "orange",
@@ -75,6 +213,23 @@ function KanbanDroppableColumn({
         "bg-fuchsia-100/5 ring-fuchsia-500/20 dark:bg-fuchsia-900/5": column.color === "fuchsia",
         "bg-pink-100/5 ring-pink-500/20 dark:bg-pink-900/5": column.color === "pink",
         "bg-rose-100/5 ring-rose-500/20 dark:bg-rose-900/5": column.color === "rose",
+        "ring-red-500": (isOver || isJobApplicationOver) && column.color === "red",
+        "ring-orange-500": (isOver || isJobApplicationOver) && column.color === "orange",
+        "ring-amber-500": (isOver || isJobApplicationOver) && column.color === "amber",
+        "ring-yellow-500": (isOver || isJobApplicationOver) && column.color === "yellow",
+        "ring-lime-500": (isOver || isJobApplicationOver) && column.color === "lime",
+        "ring-green-500": (isOver || isJobApplicationOver) && column.color === "green",
+        "ring-emerald-500": (isOver || isJobApplicationOver) && column.color === "emerald",
+        "ring-teal-500": (isOver || isJobApplicationOver) && column.color === "teal",
+        "ring-cyan-500": (isOver || isJobApplicationOver) && column.color === "cyan",
+        "ring-sky-500": (isOver || isJobApplicationOver) && column.color === "sky",
+        "ring-blue-500": (isOver || isJobApplicationOver) && column.color === "blue",
+        "ring-indigo-500": (isOver || isJobApplicationOver) && column.color === "indigo",
+        "ring-violet-500": (isOver || isJobApplicationOver) && column.color === "violet",
+        "ring-purple-500": (isOver || isJobApplicationOver) && column.color === "purple",
+        "ring-fuchsia-500": (isOver || isJobApplicationOver) && column.color === "fuchsia",
+        "ring-pink-500": (isOver || isJobApplicationOver) && column.color === "pink",
+        "ring-rose-500": (isOver || isJobApplicationOver) && column.color === "rose",
       })}
     >
       <CardHeader
@@ -137,16 +292,27 @@ function KanbanDroppableColumn({
           </DropdownMenu>
         </div>
       </CardHeader>
-      <CardContent className="space-y-2">
-        {sortedJobApplications.map((jobApplication, index) => (
-          <KanbanSortableJobApplicationCard
-            key={`job-application-card-${index}`}
-            jobApplication={{ ...jobApplication, columnId: jobApplication.columnId || column._id }}
-            columns={sortedColumns}
-            color={column.color}
-          />
-        ))}
-      </CardContent>
+      {!!sortedJobApplications.length && (
+        <CardContent className="space-y-2">
+          <SortableContext
+            items={sortedJobApplications.map((jobApplication) => jobApplication._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {sortedJobApplications.map((jobApplication) => (
+              <KanbanSortableJobApplicationCard
+                key={`sortable-job-application-card-${jobApplication._id}`}
+                jobApplication={{
+                  ...jobApplication,
+                  columnId: jobApplication.columnId || column._id,
+                }}
+                columns={columns}
+                color={column.color}
+                onMoveJobApplication={onMoveJobApplication}
+              />
+            ))}
+          </SortableContext>
+        </CardContent>
+      )}
       <CardFooter>
         <CreateJobApplicationDialog
           boardId={boardId}
@@ -167,13 +333,48 @@ function KanbanSortableJobApplicationCard({
   jobApplication,
   columns,
   color,
+  onMoveJobApplication,
 }: {
   jobApplication: PopulatedJobApplicationType;
   columns: PopulatedColumnType[];
   color: PopulatedColumnType["color"];
+  onMoveJobApplication?: MoveJobApplicationHandler;
 }) {
+  const { attributes, listeners, transform, transition, isDragging, setNodeRef } = useSortable({
+    id: jobApplication._id,
+    data: {
+      type: "job-application",
+      jobApplicationId: jobApplication._id,
+      columnId: jobApplication.columnId,
+      order: jobApplication.order,
+    } satisfies SortableData,
+  });
+
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+
+  useEffect(() => {
+    const updateMouseState = () => {
+      if (!isDragging) {
+        setIsMouseDown(false);
+      }
+    };
+    updateMouseState();
+  }, [isDragging]);
+
   return (
-    <div>
+    <div
+      ref={setNodeRef}
+      className={isMouseDown ? "cursor-grabbing" : "cursor-grab"}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+      }}
+      onMouseDown={() => setIsMouseDown(true)}
+      onMouseUp={() => setIsMouseDown(false)}
+      onMouseEnter={() => setIsMouseDown(false)}
+      onMouseLeave={() => setIsMouseDown(false)}
+    >
       <JobApplicationCard
         className={clsx("bg-background dark:bg-background", {
           "ring-red-500/20": color === "red",
@@ -196,6 +397,8 @@ function KanbanSortableJobApplicationCard({
         })}
         jobApplication={jobApplication}
         columns={columns}
+        onMoveJobApplication={onMoveJobApplication}
+        dragHandleProps={{ ...attributes, tabIndex: -1, ...listeners }}
       />
     </div>
   );
