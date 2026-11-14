@@ -3,7 +3,7 @@ import { Board, Column, type ColumnType, type MongoTimestampProps } from "./mode
 
 const DEFAULT_COLUMNS: Omit<
   ColumnType,
-  "jobApplications" | "boardId" | keyof MongoTimestampProps
+  "jobApplications" | "userId" | "boardId" | keyof MongoTimestampProps
 >[] = [
   { name: "Wish List", order: 0, icon: "Calendar", color: "cyan" },
   { name: "Applied", order: 1, icon: "CircleCheck", color: "purple" },
@@ -41,6 +41,7 @@ export async function initializeUserBoard(userId: string) {
           icon: column.icon,
           color: column.color,
           jobApplications: [],
+          userId,
           boardId: board._id,
         }),
       ),

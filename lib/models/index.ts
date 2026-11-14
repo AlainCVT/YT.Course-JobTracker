@@ -12,6 +12,7 @@ export * from "./job-application.model";
 export { default as JobApplication } from "./job-application.model";
 
 export type MongoID = mongoose.Types.ObjectId;
+export type MongooseDeleteResult = mongoose.DeleteResult;
 
 export type MongoTimestampProps = mongoose.DefaultTimestampProps;
 

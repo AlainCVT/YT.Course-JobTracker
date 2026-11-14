@@ -21,6 +21,11 @@ const ColumnSchema = new Schema(
       required: true,
       default: 0,
     },
+    userId: {
+      type: String,
+      required: true,
+      index: true,
+    },
     boardId: {
       type: Schema.Types.ObjectId,
       ref: "Board",

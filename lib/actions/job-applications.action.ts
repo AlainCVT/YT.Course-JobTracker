@@ -1,6 +1,5 @@
 "use server";
 
-import type { DeleteResult as MongooseDeleteResult } from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import { getSession } from "@/lib/auth/auth";
@@ -10,6 +9,7 @@ import {
   Column,
   JobApplication,
   type JobApplicationType,
+  type MongooseDeleteResult,
   type MongoSchemaBase,
   type MongoTimestampProps,
   type PopulatedJobApplicationType,
