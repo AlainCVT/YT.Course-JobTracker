@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 import KanbanBoard from "@/components/KanbanBoard";
+import { DashboardProvider } from "@/contexts/dashboard";
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board, type PopulatedBoardType } from "@/lib/models";
@@ -65,5 +66,9 @@ async function DashboardContent() {
 
   const board = await getBoard(session.user.id);
 
-  return <KanbanBoard board={board} />;
+  return (
+    <DashboardProvider initialBoard={board}>
+      <KanbanBoard />
+    </DashboardProvider>
+  );
 }

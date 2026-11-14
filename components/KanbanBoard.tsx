@@ -16,7 +16,7 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import JobApplicationCard from "@/components/cards/JobApplicationCard";
@@ -31,17 +31,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDashboard } from "@/contexts/dashboard";
 import { COLUMNS_ICONS } from "@/lib/constants";
-import { type MoveJobApplicationHandler, useBoard } from "@/lib/hooks/useBoard";
-import type {
-  PopulatedBoardType,
-  PopulatedColumnType,
-  PopulatedJobApplicationType,
-} from "@/lib/models";
-
-interface KanbanBoardProps {
-  board: PopulatedBoardType | null;
-}
+import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
 type DroppableData = {
   type: "column";
@@ -73,9 +65,9 @@ const kanbanCollisionDetection: CollisionDetection = (args) => {
       );
 };
 
-export default function KanbanBoard({ board }: KanbanBoardProps) {
+export default function KanbanBoard() {
+  const { board, columns, moveJobApplication } = useDashboard();
   const [overlayId, setOverlayId] = useState<string | null>(null);
-  const { columns, moveJobApplication } = useBoard(board);
 
   const overlayJobApplication = columns
     .flatMap((column) => column.jobApplications || [])
@@ -166,8 +158,6 @@ export default function KanbanBoard({ board }: KanbanBoardProps) {
                 key={`droppable-column-${column._id}`}
                 boardId={board._id}
                 column={column}
-                columns={columns}
-                onMoveJobApplication={moveJobApplication}
               />
             ))}
         </Container>
@@ -176,7 +166,6 @@ export default function KanbanBoard({ board }: KanbanBoardProps) {
             <JobApplicationCard
               className="cursor-grabbing opacity-50"
               jobApplication={overlayJobApplication}
-              columns={columns}
             />
           )}
         </DragOverlay>
@@ -188,21 +177,20 @@ export default function KanbanBoard({ board }: KanbanBoardProps) {
 function KanbanDroppableColumn({
   boardId,
   column,
-  columns,
-  onMoveJobApplication,
 }: {
   column: PopulatedColumnType;
   boardId: string;
-  columns: PopulatedColumnType[];
-  onMoveJobApplication?: MoveJobApplicationHandler;
 }) {
+  const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
+  const jobApplications = column.jobApplications;
+
   const { isOver, setNodeRef } = useDroppable({
     id: column._id,
     data: {
       type: "column",
       columnId: column._id,
-      maxOrder: column.jobApplications.length
-        ? Math.max(...column.jobApplications.map((jobApplication) => jobApplication.order))
+      maxOrder: jobApplications.length
+        ? Math.max(...jobApplications.map((jobApplication) => jobApplication.order))
         : -1,
     } satisfies DroppableData,
   });
@@ -211,9 +199,6 @@ function KanbanDroppableColumn({
   const overData = over?.data.current as SortableData | undefined;
   const isJobApplicationOver =
     overData?.type === "job-application" && overData.columnId === column._id;
-
-  const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
-  const sortedJobApplications = [...column.jobApplications].sort((a, b) => a.order - b.order);
 
   return (
     <Card
@@ -242,7 +227,7 @@ function KanbanDroppableColumn({
               <MoreVertical className="size-4" />
             </Button>
             <DropdownMenuContent align="end" className="w-36 whitespace-nowrap">
-              <DropdownMenuItem variant="destructive">
+              <DropdownMenuItem variant="destructive" disabled={!!jobApplications.length}>
                 <Trash2 className="size-4" />
                 Delete column
               </DropdownMenuItem>
@@ -250,22 +235,19 @@ function KanbanDroppableColumn({
           </DropdownMenu>
         </div>
       </CardHeader>
-      {!!sortedJobApplications.length && (
+      {!!jobApplications.length && (
         <CardContent className="space-y-2">
           <SortableContext
-            items={sortedJobApplications.map((jobApplication) => jobApplication._id)}
+            items={jobApplications.map((jobApplication) => jobApplication._id)}
             strategy={verticalListSortingStrategy}
           >
-            {sortedJobApplications.map((jobApplication) => (
+            {jobApplications.map((jobApplication) => (
               <KanbanSortableJobApplicationCard
                 key={`sortable-job-application-card-${jobApplication._id}`}
                 jobApplication={{
                   ...jobApplication,
                   columnId: jobApplication.columnId || column._id,
                 }}
-                columns={columns}
-                color={column.color}
-                onMoveJobApplication={onMoveJobApplication}
               />
             ))}
           </SortableContext>
@@ -289,13 +271,8 @@ function KanbanDroppableColumn({
 
 function KanbanSortableJobApplicationCard({
   jobApplication,
-  columns,
-  onMoveJobApplication,
 }: {
   jobApplication: PopulatedJobApplicationType;
-  columns: PopulatedColumnType[];
-  color: PopulatedColumnType["color"];
-  onMoveJobApplication?: MoveJobApplicationHandler;
 }) {
   const { attributes, listeners, transform, transition, isDragging, setNodeRef } = useSortable({
     id: jobApplication._id,
@@ -322,8 +299,6 @@ function KanbanSortableJobApplicationCard({
     <JobApplicationCard
       ref={setNodeRef}
       jobApplication={jobApplication}
-      columns={columns}
-      onMoveJobApplication={onMoveJobApplication}
       className={isMouseDown ? "cursor-grabbing" : "cursor-grab"}
       style={{
         transform: CSS.Transform.toString(transform),

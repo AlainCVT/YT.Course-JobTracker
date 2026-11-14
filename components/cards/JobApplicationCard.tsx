@@ -28,14 +28,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useDashboard } from "@/contexts/dashboard";
 import { getStringColor } from "@/lib/helpers";
-import type { MoveJobApplicationHandler } from "@/lib/hooks/useBoard";
 import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
 interface JobApplicationCardProps {
   jobApplication: PopulatedJobApplicationType;
-  columns: PopulatedColumnType[];
-  onMoveJobApplication?: MoveJobApplicationHandler;
 }
 
 const compactUsdFormatter = new Intl.NumberFormat("en-US", {
@@ -47,7 +45,9 @@ const compactUsdFormatter = new Intl.NumberFormat("en-US", {
 export default forwardRef<
   ComponentRef<typeof Card>,
   JobApplicationCardProps & ComponentPropsWithoutRef<typeof Card>
->(function JobApplicationCard({ jobApplication, columns, onMoveJobApplication, ...props }, ref) {
+>(function JobApplicationCard({ jobApplication, ...props }, ref) {
+  const { columns, moveJobApplication } = useDashboard();
+
   const currentColumn = columns.find((column) => column._id === jobApplication.columnId);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -146,15 +146,14 @@ export default forwardRef<
             <JobApplicationMenu
               jobApplication={jobApplication}
               otherColumns={columns.filter((column) => column._id !== jobApplication.columnId)}
-              onMoveJobApplication={onMoveJobApplication}
             />
             <div className="flex flex-col">
               <Button
                 variant="ghost"
                 size="icon"
-                disabled={!currentColumn || jobApplication.order <= 0 || !onMoveJobApplication}
+                disabled={!currentColumn || jobApplication.order <= 0}
                 onClick={() =>
-                  onMoveJobApplication?.(
+                  moveJobApplication(
                     jobApplication._id,
                     jobApplication.columnId,
                     jobApplication.columnId,
@@ -169,12 +168,10 @@ export default forwardRef<
                 variant="ghost"
                 size="icon"
                 disabled={
-                  !currentColumn ||
-                  jobApplication.order >= currentColumn.jobApplications.length - 1 ||
-                  !onMoveJobApplication
+                  !currentColumn || jobApplication.order >= currentColumn.jobApplications.length - 1
                 }
                 onClick={() =>
-                  onMoveJobApplication?.(
+                  moveJobApplication(
                     jobApplication._id,
                     jobApplication.columnId,
                     jobApplication.columnId,
@@ -196,12 +193,12 @@ export default forwardRef<
 function JobApplicationMenu({
   jobApplication,
   otherColumns,
-  onMoveJobApplication,
 }: {
   jobApplication: PopulatedJobApplicationType;
   otherColumns: PopulatedColumnType[];
-  onMoveJobApplication?: MoveJobApplicationHandler;
 }) {
+  const { moveJobApplication } = useDashboard();
+
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
   const [removeDialogOpen, setRemoveDialogOpen] = useState<boolean>(false);
 
@@ -225,7 +222,7 @@ function JobApplicationMenu({
                     key={key}
                     variant={column.color || "default"}
                     onClick={() =>
-                      onMoveJobApplication?.(
+                      moveJobApplication(
                         jobApplication._id,
                         jobApplication.columnId,
                         column._id,
