@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
+import Container from "@/components/Container";
 import KanbanBoard from "@/components/KanbanBoard";
 import { DashboardProvider } from "@/contexts/dashboard";
 import { getSession } from "@/lib/auth/auth";
@@ -47,9 +48,9 @@ export default function Dashboard() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-1 items-center justify-center">
+        <Container className="flex flex-1 items-center justify-center py-12">
           <Loader2 className="animate-spin text-primary" />
-        </div>
+        </Container>
       }
     >
       <DashboardContent />

@@ -16,12 +16,13 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { ArrowLeft, ArrowRight, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import JobApplicationCard from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
 import UpdateBoardDialog from "@/components/dialogs/board/UpdateBoardDialog";
+import CreateColumnDialog from "@/components/dialogs/column/CreateColumnDialog";
 import CreateJobApplicationDialog from "@/components/dialogs/job-application/CreateJobApplicationDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -122,30 +123,37 @@ export default function KanbanBoard() {
     }
   };
 
-  return (
+  return board ? (
     <div className="flex flex-1 flex-col gap-12 overflow-x-auto py-12">
       <div className="sticky left-0">
-        <Container>
-          {board && (
-            <>
-              <div>
-                <h1 className="inline text-3xl font-bold">{board.name}</h1>
-                <UpdateBoardDialog
-                  payload={board}
-                  trigger={
-                    <Button className="mx-2" variant="link" size="icon-sm">
-                      <Pen />
-                    </Button>
-                  }
-                />
-              </div>
-              {board?.description && <p className="text-muted-foreground">{board.description}</p>}
-            </>
-          )}
+        <Container className="flex justify-between gap-8">
+          <div>
+            <div>
+              <h1 className="inline text-3xl font-bold">{board.name}</h1>
+              <UpdateBoardDialog
+                payload={board}
+                trigger={
+                  <Button className="mx-2" variant="link" size="icon-sm">
+                    <Pen />
+                  </Button>
+                }
+              />
+            </div>
+            {board.description && <p className="text-muted-foreground">{board.description}</p>}
+          </div>
+          <CreateColumnDialog
+            boardId={board._id}
+            boardName={board.name}
+            trigger={
+              <Button variant="outline">
+                <Plus /> Add column
+              </Button>
+            }
+          />
         </Container>
       </div>
       <DndContext
-        id={`board-${board?._id ?? "empty"}`}
+        id={`board-${board._id}`}
         sensors={sensors}
         collisionDetection={kanbanCollisionDetection}
         onDragStart={handleDragStart}
@@ -171,6 +179,10 @@ export default function KanbanBoard() {
         </DragOverlay>
       </DndContext>
     </div>
+  ) : (
+    <Container className="flex flex-1 items-center justify-center py-12">
+      <Loader2 className="animate-spin text-primary" />
+    </Container>
   );
 }
 

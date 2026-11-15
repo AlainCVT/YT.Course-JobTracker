@@ -9,3 +9,7 @@
 @import "./ui/card/card-header.css";
 
 @import "./ui/dropdown-menu/dropdown-menu-item.css";
+
+@source inline(
+  "bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500"
+);
