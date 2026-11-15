@@ -15,36 +15,23 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import clsx from "clsx";
-import { Edit2, Loader2, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import ColumnCard from "@/components/cards/ColumnCard";
 import JobApplicationCard from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
-import UpdateBoardDialog from "@/components/dialogs/board/UpdateBoardDialog";
-import CreateColumnDialog from "@/components/dialogs/column/CreateColumnDialog";
-import DeleteColumnDialog from "@/components/dialogs/column/DeleteColumnDialog";
-import UpdateColumnDialog from "@/components/dialogs/column/UpdateColumnDialog";
-import CreateJobApplicationDialog from "@/components/dialogs/job-application/CreateJobApplicationDialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import BoardHeading from "@/components/heading/BoardHeading";
 import { useDashboard } from "@/contexts/dashboard";
-import { COLUMNS_ICONS } from "@/lib/constants";
 import type { PopulatedColumnType, PopulatedJobApplicationType } from "@/lib/models";
 
-type DroppableData = {
+type ColumnContextData = {
   type: "column";
   columnId: string;
   maxOrder: number;
 };
 
-type SortableData = {
+type JobApplicationContextData = {
   type: "job-application";
   jobApplicationId: string;
   columnId: string;
@@ -70,11 +57,12 @@ const kanbanCollisionDetection: CollisionDetection = (args) => {
 
 export default function KanbanBoard() {
   const { board, columns, moveJobApplication } = useDashboard();
-  const [overlayId, setOverlayId] = useState<string | null>(null);
+
+  const [jobApplicationOverlayId, setJobApplicationOverlayId] = useState<string | null>(null);
 
   const overlayJobApplication = columns
     .flatMap((column) => column.jobApplications || [])
-    .find((jobApplication) => jobApplication._id === overlayId?.toString());
+    .find((jobApplication) => jobApplication._id === jobApplicationOverlayId?.toString());
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -85,21 +73,21 @@ export default function KanbanBoard() {
   );
 
   const handleDragStart = (event: DragStartEvent) => {
-    setOverlayId(event.active.id.toString());
+    setJobApplicationOverlayId(event.active.id.toString());
   };
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
-    setOverlayId(null);
+    setJobApplicationOverlayId(null);
 
     if (!over || !board?._id) return;
 
     const activeId = active.id.toString();
     const overId = over.id.toString();
 
-    const activeData = active.data.current as SortableData | undefined;
-    const overData = over.data.current as DroppableData | SortableData | undefined;
+    const activeData = active.data.current as JobApplicationContextData | undefined;
+    const overData = over.data.current as ColumnContextData | JobApplicationContextData | undefined;
 
     if (!activeData || !overData || activeId === overId) return;
 
@@ -127,33 +115,7 @@ export default function KanbanBoard() {
 
   return board ? (
     <div className="flex flex-1 flex-col gap-12 overflow-x-auto py-12">
-      <div className="sticky left-0">
-        <Container className="flex justify-between gap-8">
-          <div>
-            <div>
-              <h1 className="inline text-3xl font-bold">{board.name}</h1>
-              <UpdateBoardDialog
-                payload={board}
-                trigger={
-                  <Button className="mx-2" variant="link" size="icon-sm">
-                    <Pen />
-                  </Button>
-                }
-              />
-            </div>
-            {board.description && <p className="text-muted-foreground">{board.description}</p>}
-          </div>
-          <CreateColumnDialog
-            boardId={board._id}
-            boardName={board.name}
-            trigger={
-              <Button variant="outline">
-                <Plus /> Add column
-              </Button>
-            }
-          />
-        </Container>
-      </div>
+      <BoardHeading className="sticky left-0" />
       <DndContext
         id={`board-${board._id}`}
         sensors={sensors}
@@ -192,10 +154,9 @@ function KanbanDroppableColumn({
   boardId,
   column,
 }: {
-  column: PopulatedColumnType;
   boardId: string;
+  column: PopulatedColumnType;
 }) {
-  const Icon = column.icon ? COLUMNS_ICONS[column.icon] : null;
   const jobApplications = column.jobApplications;
 
   const { isOver, setNodeRef } = useDroppable({
@@ -206,100 +167,36 @@ function KanbanDroppableColumn({
       maxOrder: jobApplications.length
         ? Math.max(...jobApplications.map((jobApplication) => jobApplication.order))
         : -1,
-    } satisfies DroppableData,
+    } satisfies ColumnContextData,
   });
   const { over } = useDndContext();
 
-  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
-  const [removeDialogOpen, setRemoveDialogOpen] = useState<boolean>(false);
-
-  const overData = over?.data.current as SortableData | undefined;
+  const overData = over?.data.current as JobApplicationContextData | undefined;
   const isJobApplicationOver =
     overData?.type === "job-application" && overData.columnId === column._id;
 
   return (
-    <>
-      <Card
-        ref={setNodeRef}
-        className={clsx("w-lg shrink-0 p-0 pb-6 shadow-md", {
-          [`card-ui card-ui-${column.color}`]: column.color,
-          "card-ui-active": isOver || isJobApplicationOver,
-        })}
+    <ColumnCard
+      ref={setNodeRef}
+      boardId={boardId}
+      column={column}
+      isActive={isOver || isJobApplicationOver}
+    >
+      <SortableContext
+        items={jobApplications.map((jobApplication) => jobApplication._id)}
+        strategy={verticalListSortingStrategy}
       >
-        <CardHeader
-          className={clsx("py-2", {
-            [`card-ui-header-${column.color}`]: column.color,
-          })}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div>{Icon && <Icon className="size-4" />}</div>
-              <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
-            </div>
-            <DropdownMenu>
-              <Button
-                render={<DropdownMenuTrigger />}
-                variant={column.color ? `tinted-${column.color}` : "ghost"}
-                size="icon"
-              >
-                <MoreVertical className="size-4" />
-              </Button>
-              <DropdownMenuContent align="end" className="w-38 whitespace-nowrap">
-                <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
-                  <Edit2 className="size-4" />
-                  Edit column
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  variant="destructive"
-                  disabled={!!jobApplications.length}
-                  onClick={() => setRemoveDialogOpen(true)}
-                >
-                  <Trash2 className="size-4" />
-                  Remove column
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </CardHeader>
-        {!!jobApplications.length && (
-          <CardContent className="space-y-2">
-            <SortableContext
-              items={jobApplications.map((jobApplication) => jobApplication._id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {jobApplications.map((jobApplication) => (
-                <KanbanSortableJobApplicationCard
-                  key={`sortable-job-application-card-${jobApplication._id}`}
-                  jobApplication={{
-                    ...jobApplication,
-                    columnId: jobApplication.columnId || column._id,
-                  }}
-                />
-              ))}
-            </SortableContext>
-          </CardContent>
-        )}
-        <CardFooter>
-          <CreateJobApplicationDialog
-            boardId={boardId}
-            columnId={column._id}
-            columnName={column.name}
-            trigger={
-              <Button variant={column.color ? `outline-${column.color}` : "outline"}>
-                <Plus /> Add job application
-              </Button>
-            }
+        {jobApplications.map((jobApplication) => (
+          <KanbanSortableJobApplicationCard
+            key={`sortable-job-application-card-${jobApplication._id}`}
+            jobApplication={{
+              ...jobApplication,
+              columnId: jobApplication.columnId || column._id,
+            }}
           />
-        </CardFooter>
-      </Card>
-      <UpdateColumnDialog
-        id={column._id}
-        payload={column}
-        open={editDialogOpen}
-        setOpen={setEditDialogOpen}
-      />
-      <DeleteColumnDialog id={column._id} open={removeDialogOpen} setOpen={setRemoveDialogOpen} />
-    </>
+        ))}
+      </SortableContext>
+    </ColumnCard>
   );
 }
 
@@ -315,7 +212,7 @@ function KanbanSortableJobApplicationCard({
       jobApplicationId: jobApplication._id,
       columnId: jobApplication.columnId,
       order: jobApplication.order,
-    } satisfies SortableData,
+    } satisfies JobApplicationContextData,
   });
 
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);

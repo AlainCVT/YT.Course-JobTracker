@@ -59,13 +59,17 @@ function TagInput({
   return (
     <div
       className={cn(
-        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
+        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-xs focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 dark:bg-input/30",
         disabled && "pointer-events-none opacity-50",
         className,
       )}
     >
       {tags.map((tag) => (
-        <Badge key={tag} variant="secondary" className="gap-1 pr-1">
+        <Badge
+          key={tag}
+          variant="secondary"
+          className="gap-1 pr-1 dark:bg-muted-foreground dark:text-muted"
+        >
           {tag}
           <button
             type="button"
@@ -78,6 +82,7 @@ function TagInput({
         </Badge>
       ))}
       <input
+        id={id}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         onKeyDown={onKeyDown}
@@ -86,7 +91,7 @@ function TagInput({
         disabled={disabled}
         className="min-w-24 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
       />
-      {name && tags.map((tag) => <input id={id} key={tag} type="hidden" name={name} value={tag} />)}
+      {name && tags.map((tag) => <input key={tag} type="hidden" name={name} value={tag} />)}
     </div>
   );
 }
