@@ -62,8 +62,10 @@ export default function Home() {
       <main className="flex-1">
         <Container as="section" className="py-32">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-6xl font-bold">A better way to track your job application.</h1>
-            <p className="mt-6 mb-10 text-xl text-muted-foreground">
+            <h1 className="text-4xl font-bold sm:text-6xl">
+              A better way to track your job application.
+            </h1>
+            <p className="mt-6 mb-10 text-lg text-muted-foreground sm:text-xl">
               Capture, organize, and manage your job search in one place.
             </p>
             <div className="flex flex-col items-center gap-4">

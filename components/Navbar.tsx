@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -26,19 +27,24 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
       <Container as="nav" className="flex h-16 items-center justify-between">
         <Button
-          className="gap-2 py-6 text-xl font-semibold"
+          className="gap-2 py-6 text-base font-semibold sm:text-xl"
           render={<Link href="/" />}
           nativeButton={false}
           variant="ghost"
           size="lg"
         >
-          <Briefcase className="size-8 text-primary" />
+          <Briefcase className="size-6 text-primary sm:size-8" />
           Job Tracker
         </Button>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {session?.user ? (
             <>
-              <Button render={<Link href="/dashboard" />} nativeButton={false} variant="ghost">
+              <Button
+                render={<Link href="/dashboard" />}
+                nativeButton={false}
+                variant="ghost"
+                className="not-sm:hidden"
+              >
                 Dashboard
               </Button>
               <DropdownMenu>
@@ -64,6 +70,9 @@ export default function Navbar() {
                         </p>
                       </div>
                     </DropdownMenuLabel>
+                    <DropdownMenuItem render={<Link href="/dashboard" />} className="sm:hidden">
+                      Dashboard
+                    </DropdownMenuItem>
                     <SignOutButton />
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
@@ -71,11 +80,16 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Button render={<Link href="/sign-in" />} nativeButton={false} variant="ghost">
-                Log In
+              <Button
+                render={<Link href="/sign-in" />}
+                nativeButton={false}
+                variant="ghost"
+                className="not-sm:hidden"
+              >
+                Sign In
               </Button>
               <Button render={<Link href="/sign-up" />} nativeButton={false}>
-                Start for free
+                Sign up
               </Button>
             </>
           )}

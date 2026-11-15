@@ -19,7 +19,7 @@ export default function SignOutButton() {
         }
       }}
     >
-      Log out
+      Sign out
     </DropdownMenuItem>
   );
 }

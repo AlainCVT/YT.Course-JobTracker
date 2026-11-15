@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
@@ -29,6 +29,14 @@ export const metadata: Metadata = {
   description:
     "Organize your job search with a free job application tracker. Manage applications, follow interview progress, and keep every opportunity in one place.",
   applicationName: "Job Tracker",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   keywords: [
     "job application tracker",
     "job search organizer",
@@ -49,6 +57,10 @@ export const metadata: Metadata = {
     description:
       "Organize your job search, track applications, and follow every opportunity from application to offer.",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#7008E7",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
