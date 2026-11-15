@@ -151,6 +151,87 @@
   @apply border-transparent focus-visible:outline-solid;
 }
 
+@utility badge-tinted-slate {
+  @apply bg-slate-500/10 text-slate-500 selection:bg-slate-500 [a]:hover:bg-slate-500/20;
+  @apply focus-visible:border-slate-300 focus-visible:ring-slate-300/50 focus-visible:outline-slate-300;
+  @apply dark:focus-visible:border-slate-700 dark:focus-visible:ring-slate-700/50 dark:focus-visible:outline-slate-700;
+  @apply selection:text-slate-100;
+  @apply dark:selection:text-slate-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-gray {
+  @apply bg-gray-500/10 text-gray-500 selection:bg-gray-500 [a]:hover:bg-gray-500/20;
+  @apply focus-visible:border-gray-300 focus-visible:ring-gray-300/50 focus-visible:outline-gray-300;
+  @apply dark:focus-visible:border-gray-700 dark:focus-visible:ring-gray-700/50 dark:focus-visible:outline-gray-700;
+  @apply selection:text-gray-100;
+  @apply dark:selection:text-gray-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-zinc {
+  @apply bg-zinc-500/10 text-zinc-500 selection:bg-zinc-500 [a]:hover:bg-zinc-500/20;
+  @apply focus-visible:border-zinc-300 focus-visible:ring-zinc-300/50 focus-visible:outline-zinc-300;
+  @apply dark:focus-visible:border-zinc-700 dark:focus-visible:ring-zinc-700/50 dark:focus-visible:outline-zinc-700;
+  @apply selection:text-zinc-100;
+  @apply dark:selection:text-zinc-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-neutral {
+  @apply bg-neutral-500/10 text-neutral-500 selection:bg-neutral-500 [a]:hover:bg-neutral-500/20;
+  @apply focus-visible:border-neutral-300 focus-visible:ring-neutral-300/50 focus-visible:outline-neutral-300;
+  @apply dark:focus-visible:border-neutral-700 dark:focus-visible:ring-neutral-700/50 dark:focus-visible:outline-neutral-700;
+  @apply selection:text-neutral-100;
+  @apply dark:selection:text-neutral-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-stone {
+  @apply bg-stone-500/10 text-stone-500 selection:bg-stone-500 [a]:hover:bg-stone-500/20;
+  @apply focus-visible:border-stone-300 focus-visible:ring-stone-300/50 focus-visible:outline-stone-300;
+  @apply dark:focus-visible:border-stone-700 dark:focus-visible:ring-stone-700/50 dark:focus-visible:outline-stone-700;
+  @apply selection:text-stone-100;
+  @apply dark:selection:text-stone-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-taupe {
+  @apply bg-taupe-500/10 text-taupe-500 selection:bg-taupe-500 [a]:hover:bg-taupe-500/20;
+  @apply focus-visible:border-taupe-300 focus-visible:ring-taupe-300/50 focus-visible:outline-taupe-300;
+  @apply dark:focus-visible:border-taupe-700 dark:focus-visible:ring-taupe-700/50 dark:focus-visible:outline-taupe-700;
+  @apply selection:text-taupe-100;
+  @apply dark:selection:text-taupe-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-mauve {
+  @apply bg-mauve-500/10 text-mauve-500 selection:bg-mauve-500 [a]:hover:bg-mauve-500/20;
+  @apply focus-visible:border-mauve-300 focus-visible:ring-mauve-300/50 focus-visible:outline-mauve-300;
+  @apply dark:focus-visible:border-mauve-700 dark:focus-visible:ring-mauve-700/50 dark:focus-visible:outline-mauve-700;
+  @apply selection:text-mauve-100;
+  @apply dark:selection:text-mauve-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-mist {
+  @apply bg-mist-500/10 text-mist-500 selection:bg-mist-500 [a]:hover:bg-mist-500/20;
+  @apply focus-visible:border-mist-300 focus-visible:ring-mist-300/50 focus-visible:outline-mist-300;
+  @apply dark:focus-visible:border-mist-700 dark:focus-visible:ring-mist-700/50 dark:focus-visible:outline-mist-700;
+  @apply selection:text-mist-100;
+  @apply dark:selection:text-mist-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
+@utility badge-tinted-olive {
+  @apply bg-olive-500/10 text-olive-500 selection:bg-olive-500 [a]:hover:bg-olive-500/20;
+  @apply focus-visible:border-olive-300 focus-visible:ring-olive-300/50 focus-visible:outline-olive-300;
+  @apply dark:focus-visible:border-olive-700 dark:focus-visible:ring-olive-700/50 dark:focus-visible:outline-olive-700;
+  @apply selection:text-olive-100;
+  @apply dark:selection:text-olive-900;
+  @apply border-transparent focus-visible:outline-solid;
+}
+
 @source inline(
-  "badge-tinted-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "badge-tinted-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );

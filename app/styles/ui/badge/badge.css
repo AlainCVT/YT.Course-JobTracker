@@ -66,6 +66,42 @@
   @apply bg-rose-500 text-primary-foreground [a]:hover:bg-rose-500/80;
 }
 
+@utility badge-slate {
+  @apply bg-slate-500 text-primary-foreground [a]:hover:bg-slate-500/80;
+}
+
+@utility badge-gray {
+  @apply bg-gray-500 text-primary-foreground [a]:hover:bg-gray-500/80;
+}
+
+@utility badge-zinc {
+  @apply bg-zinc-500 text-primary-foreground [a]:hover:bg-zinc-500/80;
+}
+
+@utility badge-neutral {
+  @apply bg-neutral-500 text-primary-foreground [a]:hover:bg-neutral-500/80;
+}
+
+@utility badge-stone {
+  @apply bg-stone-500 text-primary-foreground [a]:hover:bg-stone-500/80;
+}
+
+@utility badge-taupe {
+  @apply bg-taupe-500 text-primary-foreground [a]:hover:bg-taupe-500/80;
+}
+
+@utility badge-mauve {
+  @apply bg-mauve-500 text-primary-foreground [a]:hover:bg-mauve-500/80;
+}
+
+@utility badge-mist {
+  @apply bg-mist-500 text-primary-foreground [a]:hover:bg-mist-500/80;
+}
+
+@utility badge-olive {
+  @apply bg-olive-500 text-primary-foreground [a]:hover:bg-olive-500/80;
+}
+
 @source inline(
-  "badge-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "badge-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );

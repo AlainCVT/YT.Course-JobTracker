@@ -151,6 +151,87 @@
   }
 }
 
+@utility card-ui-header-slate {
+  .card-ui & {
+    @apply bg-slate-500/10 text-slate-900;
+    @apply dark:bg-slate-500/10 dark:text-slate-100;
+    @apply selection:bg-slate-900 selection:text-slate-100;
+    @apply dark:selection:bg-slate-100 dark:selection:text-slate-900;
+  }
+}
+
+@utility card-ui-header-gray {
+  .card-ui & {
+    @apply bg-gray-500/10 text-gray-900;
+    @apply dark:bg-gray-500/10 dark:text-gray-100;
+    @apply selection:bg-gray-900 selection:text-gray-100;
+    @apply dark:selection:bg-gray-100 dark:selection:text-gray-900;
+  }
+}
+
+@utility card-ui-header-zinc {
+  .card-ui & {
+    @apply bg-zinc-500/10 text-zinc-900;
+    @apply dark:bg-zinc-500/10 dark:text-zinc-100;
+    @apply selection:bg-zinc-900 selection:text-zinc-100;
+    @apply dark:selection:bg-zinc-100 dark:selection:text-zinc-900;
+  }
+}
+
+@utility card-ui-header-neutral {
+  .card-ui & {
+    @apply bg-neutral-500/10 text-neutral-900;
+    @apply dark:bg-neutral-500/10 dark:text-neutral-100;
+    @apply selection:bg-neutral-900 selection:text-neutral-100;
+    @apply dark:selection:bg-neutral-100 dark:selection:text-neutral-900;
+  }
+}
+
+@utility card-ui-header-stone {
+  .card-ui & {
+    @apply bg-stone-500/10 text-stone-900;
+    @apply dark:bg-stone-500/10 dark:text-stone-100;
+    @apply selection:bg-stone-900 selection:text-stone-100;
+    @apply dark:selection:bg-stone-100 dark:selection:text-stone-900;
+  }
+}
+
+@utility card-ui-header-taupe {
+  .card-ui & {
+    @apply bg-taupe-500/10 text-taupe-900;
+    @apply dark:bg-taupe-500/10 dark:text-taupe-100;
+    @apply selection:bg-taupe-900 selection:text-taupe-100;
+    @apply dark:selection:bg-taupe-100 dark:selection:text-taupe-900;
+  }
+}
+
+@utility card-ui-header-mauve {
+  .card-ui & {
+    @apply bg-mauve-500/10 text-mauve-900;
+    @apply dark:bg-mauve-500/10 dark:text-mauve-100;
+    @apply selection:bg-mauve-900 selection:text-mauve-100;
+    @apply dark:selection:bg-mauve-100 dark:selection:text-mauve-900;
+  }
+}
+
+@utility card-ui-header-mist {
+  .card-ui & {
+    @apply bg-mist-500/10 text-mist-900;
+    @apply dark:bg-mist-500/10 dark:text-mist-100;
+    @apply selection:bg-mist-900 selection:text-mist-100;
+    @apply dark:selection:bg-mist-100 dark:selection:text-mist-900;
+  }
+}
+
+@utility card-ui-header-olive {
+  .card-ui & {
+    @apply bg-olive-500/10 text-olive-900;
+    @apply dark:bg-olive-500/10 dark:text-olive-100;
+    @apply selection:bg-olive-900 selection:text-olive-100;
+    @apply dark:selection:bg-olive-100 dark:selection:text-olive-900;
+  }
+}
+
 @source inline(
-  "card-ui-header-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "card-ui-header-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );

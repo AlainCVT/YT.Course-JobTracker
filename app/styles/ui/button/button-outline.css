@@ -151,6 +151,87 @@
   @apply bg-background;
 }
 
+@utility button-outline-slate {
+  @apply text-slate-900 hover:bg-slate-500/10 hover:text-slate-900;
+  @apply dark:text-slate-100 dark:hover:bg-slate-500/10 dark:hover:text-slate-100;
+  @apply focus-visible:border-slate-700 focus-visible:ring-slate-700/50;
+  @apply dark:focus-visible:border-slate-300 dark:focus-visible:ring-slate-300/50;
+  @apply border-slate-500/20 aria-expanded:bg-slate-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-gray {
+  @apply text-gray-900 hover:bg-gray-500/10 hover:text-gray-900;
+  @apply dark:text-gray-100 dark:hover:bg-gray-500/10 dark:hover:text-gray-100;
+  @apply focus-visible:border-gray-700 focus-visible:ring-gray-700/50;
+  @apply dark:focus-visible:border-gray-300 dark:focus-visible:ring-gray-300/50;
+  @apply border-gray-500/20 aria-expanded:bg-gray-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-zinc {
+  @apply text-zinc-900 hover:bg-zinc-500/10 hover:text-zinc-900;
+  @apply dark:text-zinc-100 dark:hover:bg-zinc-500/10 dark:hover:text-zinc-100;
+  @apply focus-visible:border-zinc-700 focus-visible:ring-zinc-700/50;
+  @apply dark:focus-visible:border-zinc-300 dark:focus-visible:ring-zinc-300/50;
+  @apply border-zinc-500/20 aria-expanded:bg-zinc-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-neutral {
+  @apply text-neutral-900 hover:bg-neutral-500/10 hover:text-neutral-900;
+  @apply dark:text-neutral-100 dark:hover:bg-neutral-500/10 dark:hover:text-neutral-100;
+  @apply focus-visible:border-neutral-700 focus-visible:ring-neutral-700/50;
+  @apply dark:focus-visible:border-neutral-300 dark:focus-visible:ring-neutral-300/50;
+  @apply border-neutral-500/20 aria-expanded:bg-neutral-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-stone {
+  @apply text-stone-900 hover:bg-stone-500/10 hover:text-stone-900;
+  @apply dark:text-stone-100 dark:hover:bg-stone-500/10 dark:hover:text-stone-100;
+  @apply focus-visible:border-stone-700 focus-visible:ring-stone-700/50;
+  @apply dark:focus-visible:border-stone-300 dark:focus-visible:ring-stone-300/50;
+  @apply border-stone-500/20 aria-expanded:bg-stone-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-taupe {
+  @apply text-taupe-900 hover:bg-taupe-500/10 hover:text-taupe-900;
+  @apply dark:text-taupe-100 dark:hover:bg-taupe-500/10 dark:hover:text-taupe-100;
+  @apply focus-visible:border-taupe-700 focus-visible:ring-taupe-700/50;
+  @apply dark:focus-visible:border-taupe-300 dark:focus-visible:ring-taupe-300/50;
+  @apply border-taupe-500/20 aria-expanded:bg-taupe-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-mauve {
+  @apply text-mauve-900 hover:bg-mauve-500/10 hover:text-mauve-900;
+  @apply dark:text-mauve-100 dark:hover:bg-mauve-500/10 dark:hover:text-mauve-100;
+  @apply focus-visible:border-mauve-700 focus-visible:ring-mauve-700/50;
+  @apply dark:focus-visible:border-mauve-300 dark:focus-visible:ring-mauve-300/50;
+  @apply border-mauve-500/20 aria-expanded:bg-mauve-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-mist {
+  @apply text-mist-900 hover:bg-mist-500/10 hover:text-mist-900;
+  @apply dark:text-mist-100 dark:hover:bg-mist-500/10 dark:hover:text-mist-100;
+  @apply focus-visible:border-mist-700 focus-visible:ring-mist-700/50;
+  @apply dark:focus-visible:border-mist-300 dark:focus-visible:ring-mist-300/50;
+  @apply border-mist-500/20 aria-expanded:bg-mist-500/20;
+  @apply bg-background;
+}
+
+@utility button-outline-olive {
+  @apply text-olive-900 hover:bg-olive-500/10 hover:text-olive-900;
+  @apply dark:text-olive-100 dark:hover:bg-olive-500/10 dark:hover:text-olive-100;
+  @apply focus-visible:border-olive-700 focus-visible:ring-olive-700/50;
+  @apply dark:focus-visible:border-olive-300 dark:focus-visible:ring-olive-300/50;
+  @apply border-olive-500/20 aria-expanded:bg-olive-500/20;
+  @apply bg-background;
+}
+
 @source inline(
-  "button-outline-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "button-outline-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );
