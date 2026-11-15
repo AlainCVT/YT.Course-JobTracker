@@ -66,6 +66,42 @@
   @apply focus:bg-rose-500/10 focus:text-rose-500;
 }
 
+@utility dropdown-menu-item-slate {
+  @apply focus:bg-slate-500/10 focus:text-slate-500;
+}
+
+@utility dropdown-menu-item-gray {
+  @apply focus:bg-gray-500/10 focus:text-gray-500;
+}
+
+@utility dropdown-menu-item-zinc {
+  @apply focus:bg-zinc-500/10 focus:text-zinc-500;
+}
+
+@utility dropdown-menu-item-neutral {
+  @apply focus:bg-neutral-500/10 focus:text-neutral-500;
+}
+
+@utility dropdown-menu-item-stone {
+  @apply focus:bg-stone-500/10 focus:text-stone-500;
+}
+
+@utility dropdown-menu-item-taupe {
+  @apply focus:bg-taupe-500/10 focus:text-taupe-500;
+}
+
+@utility dropdown-menu-item-mauve {
+  @apply focus:bg-mauve-500/10 focus:text-mauve-500;
+}
+
+@utility dropdown-menu-item-mist {
+  @apply focus:bg-mist-500/10 focus:text-mist-500;
+}
+
+@utility dropdown-menu-item-olive {
+  @apply focus:bg-olive-500/10 focus:text-olive-500;
+}
+
 @source inline(
-  "dropdown-menu-item-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "dropdown-menu-item-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );

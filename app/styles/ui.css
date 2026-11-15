@@ -11,5 +11,5 @@
 @import "./ui/dropdown-menu/dropdown-menu-item.css";
 
 @source inline(
-  "bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-500"
+  "bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}-500"
 );

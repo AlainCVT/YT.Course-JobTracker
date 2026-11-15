@@ -66,6 +66,42 @@
   @apply badge-tinted-rose border-rose-500/20;
 }
 
+@utility badge-outline-slate {
+  @apply badge-tinted-slate border-slate-500/20;
+}
+
+@utility badge-outline-gray {
+  @apply badge-tinted-gray border-gray-500/20;
+}
+
+@utility badge-outline-zinc {
+  @apply badge-tinted-zinc border-zinc-500/20;
+}
+
+@utility badge-outline-neutral {
+  @apply badge-tinted-neutral border-neutral-500/20;
+}
+
+@utility badge-outline-stone {
+  @apply badge-tinted-stone border-stone-500/20;
+}
+
+@utility badge-outline-taupe {
+  @apply badge-tinted-taupe border-taupe-500/20;
+}
+
+@utility badge-outline-mauve {
+  @apply badge-tinted-mauve border-mauve-500/20;
+}
+
+@utility badge-outline-mist {
+  @apply badge-tinted-mist border-mist-500/20;
+}
+
+@utility badge-outline-olive {
+  @apply badge-tinted-olive border-olive-500/20;
+}
+
 @source inline(
-  "badge-outline-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}"
+  "badge-outline-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,taupe,mauve,mist,olive}"
 );
