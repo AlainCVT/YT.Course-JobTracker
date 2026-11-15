@@ -23,6 +23,7 @@ import JobApplicationCard from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
 import UpdateBoardDialog from "@/components/dialogs/board/UpdateBoardDialog";
 import CreateColumnDialog from "@/components/dialogs/column/CreateColumnDialog";
+import DeleteColumnDialog from "@/components/dialogs/column/DeleteColumnDialog";
 import UpdateColumnDialog from "@/components/dialogs/column/UpdateColumnDialog";
 import CreateJobApplicationDialog from "@/components/dialogs/job-application/CreateJobApplicationDialog";
 import { Button } from "@/components/ui/button";
@@ -210,6 +211,7 @@ function KanbanDroppableColumn({
   const { over } = useDndContext();
 
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
+  const [removeDialogOpen, setRemoveDialogOpen] = useState<boolean>(false);
 
   const overData = over?.data.current as SortableData | undefined;
   const isJobApplicationOver =
@@ -247,7 +249,11 @@ function KanbanDroppableColumn({
                   <Edit2 className="size-4" />
                   Edit column
                 </DropdownMenuItem>
-                <DropdownMenuItem variant="destructive" disabled={!!jobApplications.length}>
+                <DropdownMenuItem
+                  variant="destructive"
+                  disabled={!!jobApplications.length}
+                  onClick={() => setRemoveDialogOpen(true)}
+                >
                   <Trash2 className="size-4" />
                   Remove column
                 </DropdownMenuItem>
@@ -292,6 +298,7 @@ function KanbanDroppableColumn({
         open={editDialogOpen}
         setOpen={setEditDialogOpen}
       />
+      <DeleteColumnDialog id={column._id} open={removeDialogOpen} setOpen={setRemoveDialogOpen} />
     </>
   );
 }

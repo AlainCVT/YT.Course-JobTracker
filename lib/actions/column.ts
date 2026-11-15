@@ -8,6 +8,8 @@ import {
   Board,
   Column,
   type ColumnType,
+  JobApplication,
+  type MongooseDeleteResult,
   type MongoSchemaBase,
   type MongoTimestampProps,
   type PopulatedColumnType,
@@ -135,4 +137,51 @@ export async function updateColumn(
   revalidatePath("/dashboard");
 
   return JSON.parse(JSON.stringify(updatedColumn));
+}
+
+export async function deleteColumn(id: string): Promise<MongooseDeleteResult> {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  // Verify if column exists and belongs to user
+  const currentColumn = await Column.findById(id);
+
+  if (!currentColumn) {
+    throw new Error("Column not found");
+  }
+
+  if (currentColumn.userId !== session.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  // Remove all job applications in the current column
+  if (currentColumn.jobApplications.length) {
+    await JobApplication.deleteMany({
+      _id: { $in: currentColumn.jobApplications.map((jobApplication) => jobApplication._id) },
+    });
+  }
+
+  // Remove column from current board
+  await Board.findByIdAndUpdate(currentColumn.boardId, {
+    $pull: { columns: id },
+  });
+
+  // Shift up columns' orders in the current board
+  await Column.updateMany(
+    {
+      boardId: currentColumn.boardId,
+      order: { $gt: currentColumn.order },
+    },
+    { $inc: { order: -1 } },
+  );
+
+  // Delete column
+  const result = await Column.deleteOne({ _id: id });
+
+  revalidatePath("/dashboard");
+
+  return result;
 }
