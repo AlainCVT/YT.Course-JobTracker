@@ -18,6 +18,13 @@ type CreateColumnPayload = Omit<
   keyof MongoSchemaBase | "order" | "userId" | "jobApplications" | keyof MongoTimestampProps
 >;
 
+type UpdateColumnPayload = Partial<
+  Omit<
+    PopulatedColumnType,
+    keyof MongoSchemaBase | "userId" | "boardId" | "jobApplications" | keyof MongoTimestampProps
+  >
+>;
+
 export async function createColumn(payload: CreateColumnPayload): Promise<PopulatedColumnType> {
   const session = await getSession();
 
@@ -73,4 +80,59 @@ export async function createColumn(payload: CreateColumnPayload): Promise<Popula
   revalidatePath("/dashboard");
 
   return JSON.parse(JSON.stringify(createdColumn));
+}
+
+export async function updateColumn(
+  id: string,
+  payload: UpdateColumnPayload,
+): Promise<PopulatedColumnType> {
+  const session = await getSession();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  // Verify if columns exists and belongs to user
+  const currentColumn = await Column.findById(id);
+
+  if (!currentColumn) {
+    throw new Error("Column not found");
+  }
+
+  if (currentColumn.userId !== session.user.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const currentBoardId = currentColumn.boardId.toString();
+  const currentOrder = currentColumn.order || 0;
+
+  if (payload.order !== undefined && payload.order !== null) {
+    if (payload.order < currentOrder) {
+      // Shift up columns' orders in the current board
+      await Column.updateMany(
+        {
+          _id: { $ne: id },
+          boardId: currentBoardId,
+          order: { $gte: payload.order, $lt: currentOrder },
+        },
+        { $inc: { order: 1 } },
+      );
+    } else if (payload.order > currentOrder) {
+      // Shift down columns' orders in the current board
+      await Column.updateMany(
+        {
+          _id: { $ne: id },
+          boardId: currentBoardId,
+          order: { $gt: currentOrder, $lte: payload.order },
+        },
+        { $inc: { order: -1 } },
+      );
+    }
+  }
+
+  const updatedColumn = await Column.findByIdAndUpdate(id, payload, { returnDocument: "after" });
+
+  revalidatePath("/dashboard");
+
+  return JSON.parse(JSON.stringify(updatedColumn));
 }

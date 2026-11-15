@@ -208,7 +208,7 @@ function JobApplicationMenu({
         <Button render={<DropdownMenuTrigger />} variant="ghost" size="icon">
           <MoreVertical className="size-4" />
         </Button>
-        <DropdownMenuContent align="end" className="w-48 whitespace-nowrap">
+        <DropdownMenuContent align="end" className="w-50 whitespace-nowrap">
           <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
             <Edit2 className="size-4" />
             Edit job application
@@ -240,11 +240,12 @@ function JobApplicationMenu({
           )}
           <DropdownMenuItem variant="destructive" onClick={() => setRemoveDialogOpen(true)}>
             <Trash2 className="size-4" />
-            Delete job application
+            Remove job application
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <UpdateJobApplicationDialog
+        id={jobApplication._id}
         payload={jobApplication}
         open={editDialogOpen}
         setOpen={setEditDialogOpen}

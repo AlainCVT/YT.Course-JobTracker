@@ -23,12 +23,17 @@ import { Input } from "@/components/ui/input";
 import { TagInput } from "@/components/ui/tag-input";
 import { Textarea } from "@/components/ui/textarea";
 import { updateJobApplication } from "@/lib/actions/job-applications.action";
-import type { MongoTimestampProps, PopulatedJobApplicationType } from "@/lib/models";
+import type {
+  MongoSchemaBase,
+  MongoTimestampProps,
+  PopulatedJobApplicationType,
+} from "@/lib/models";
 
 type UpdateJobApplicationProps = {
+  id: string;
   payload: Omit<
     PopulatedJobApplicationType,
-    "order" | "userId" | "boardId" | "columnId" | keyof MongoTimestampProps
+    keyof MongoSchemaBase | "order" | "userId" | "boardId" | "columnId" | keyof MongoTimestampProps
   >;
 };
 
@@ -45,6 +50,7 @@ type UpdateJobApplicationDialogProps = UpdateJobApplicationProps &
   );
 
 export default function UpdateJobApplicationDialog({
+  id,
   payload,
   ...handleOpen
 }: UpdateJobApplicationDialogProps) {
@@ -61,16 +67,17 @@ export default function UpdateJobApplicationDialog({
   return "trigger" in handleOpen ? (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={handleOpen.trigger} nativeButton={handleOpen.nativeTriggerButton} />
-      <UpdateJobApplicationContent payload={payload} close={close} />
+      <UpdateJobApplicationContent id={id} payload={payload} close={close} />
     </Dialog>
   ) : (
     <Dialog open={handleOpen.open} onOpenChange={handleOpen.setOpen}>
-      <UpdateJobApplicationContent payload={payload} close={close} />
+      <UpdateJobApplicationContent id={id} payload={payload} close={close} />
     </Dialog>
   );
 }
 
 function UpdateJobApplicationContent({
+  id,
   payload,
   close,
 }: UpdateJobApplicationProps & { close: () => void }) {
@@ -93,7 +100,7 @@ function UpdateJobApplicationContent({
     const notes = formData.get("notes")?.toString() ?? "";
 
     try {
-      await updateJobApplication(payload._id, {
+      await updateJobApplication(id, {
         company,
         position,
         location,

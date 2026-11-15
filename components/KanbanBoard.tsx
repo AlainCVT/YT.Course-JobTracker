@@ -16,13 +16,14 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { ArrowLeft, ArrowRight, Loader2, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
+import { Edit2, Loader2, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import JobApplicationCard from "@/components/cards/JobApplicationCard";
 import Container from "@/components/Container";
 import UpdateBoardDialog from "@/components/dialogs/board/UpdateBoardDialog";
 import CreateColumnDialog from "@/components/dialogs/column/CreateColumnDialog";
+import UpdateColumnDialog from "@/components/dialogs/column/UpdateColumnDialog";
 import CreateJobApplicationDialog from "@/components/dialogs/job-application/CreateJobApplicationDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -208,76 +209,90 @@ function KanbanDroppableColumn({
   });
   const { over } = useDndContext();
 
+  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
+
   const overData = over?.data.current as SortableData | undefined;
   const isJobApplicationOver =
     overData?.type === "job-application" && overData.columnId === column._id;
 
   return (
-    <Card
-      ref={setNodeRef}
-      className={clsx("w-lg shrink-0 p-0 pb-6 shadow-md", {
-        [`card-ui card-ui-${column.color}`]: column.color,
-        "card-ui-active": isOver || isJobApplicationOver,
-      })}
-    >
-      <CardHeader
-        className={clsx("py-2", {
-          [`card-ui-header-${column.color}`]: column.color,
+    <>
+      <Card
+        ref={setNodeRef}
+        className={clsx("w-lg shrink-0 p-0 pb-6 shadow-md", {
+          [`card-ui card-ui-${column.color}`]: column.color,
+          "card-ui-active": isOver || isJobApplicationOver,
         })}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div>{Icon && <Icon className="size-4" />}</div>
-            <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
+        <CardHeader
+          className={clsx("py-2", {
+            [`card-ui-header-${column.color}`]: column.color,
+          })}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div>{Icon && <Icon className="size-4" />}</div>
+              <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
+            </div>
+            <DropdownMenu>
+              <Button
+                render={<DropdownMenuTrigger />}
+                variant={column.color ? `tinted-${column.color}` : "ghost"}
+                size="icon"
+              >
+                <MoreVertical className="size-4" />
+              </Button>
+              <DropdownMenuContent align="end" className="w-38 whitespace-nowrap">
+                <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
+                  <Edit2 className="size-4" />
+                  Edit column
+                </DropdownMenuItem>
+                <DropdownMenuItem variant="destructive" disabled={!!jobApplications.length}>
+                  <Trash2 className="size-4" />
+                  Remove column
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <DropdownMenu>
-            <Button
-              render={<DropdownMenuTrigger />}
-              variant={column.color ? `tinted-${column.color}` : "ghost"}
-              size="icon"
+        </CardHeader>
+        {!!jobApplications.length && (
+          <CardContent className="space-y-2">
+            <SortableContext
+              items={jobApplications.map((jobApplication) => jobApplication._id)}
+              strategy={verticalListSortingStrategy}
             >
-              <MoreVertical className="size-4" />
-            </Button>
-            <DropdownMenuContent align="end" className="w-36 whitespace-nowrap">
-              <DropdownMenuItem variant="destructive" disabled={!!jobApplications.length}>
-                <Trash2 className="size-4" />
-                Delete column
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </CardHeader>
-      {!!jobApplications.length && (
-        <CardContent className="space-y-2">
-          <SortableContext
-            items={jobApplications.map((jobApplication) => jobApplication._id)}
-            strategy={verticalListSortingStrategy}
-          >
-            {jobApplications.map((jobApplication) => (
-              <KanbanSortableJobApplicationCard
-                key={`sortable-job-application-card-${jobApplication._id}`}
-                jobApplication={{
-                  ...jobApplication,
-                  columnId: jobApplication.columnId || column._id,
-                }}
-              />
-            ))}
-          </SortableContext>
-        </CardContent>
-      )}
-      <CardFooter>
-        <CreateJobApplicationDialog
-          boardId={boardId}
-          columnId={column._id}
-          columnName={column.name}
-          trigger={
-            <Button variant={column.color ? `outline-${column.color}` : "outline"}>
-              <Plus /> Add job application
-            </Button>
-          }
-        />
-      </CardFooter>
-    </Card>
+              {jobApplications.map((jobApplication) => (
+                <KanbanSortableJobApplicationCard
+                  key={`sortable-job-application-card-${jobApplication._id}`}
+                  jobApplication={{
+                    ...jobApplication,
+                    columnId: jobApplication.columnId || column._id,
+                  }}
+                />
+              ))}
+            </SortableContext>
+          </CardContent>
+        )}
+        <CardFooter>
+          <CreateJobApplicationDialog
+            boardId={boardId}
+            columnId={column._id}
+            columnName={column.name}
+            trigger={
+              <Button variant={column.color ? `outline-${column.color}` : "outline"}>
+                <Plus /> Add job application
+              </Button>
+            }
+          />
+        </CardFooter>
+      </Card>
+      <UpdateColumnDialog
+        id={column._id}
+        payload={column}
+        open={editDialogOpen}
+        setOpen={setEditDialogOpen}
+      />
+    </>
   );
 }
 
