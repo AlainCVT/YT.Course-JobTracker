@@ -1,7 +1,7 @@
-import { loadEnvConfig } from "@next/env";
+import nextEnv from "@next/env";
 
 async function seed() {
-  loadEnvConfig(process.cwd());
+  nextEnv.loadEnvConfig(process.cwd());
 
   if (!process.env.MONGODB_URI) {
     throw new Error("Please define the MONGODB_URI environment variable inside .env.local");

@@ -1,12 +1,13 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { MongoClient } from "mongodb";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import connectDB from "@/lib/db";
 import { initializeUserBoard } from "@/lib/init-user-board";
 
-const client = new MongoClient(process.env.MONGODB_URI!);
+const mongooseInstance = await connectDB();
+const client = mongooseInstance.connection.getClient();
 const db = client.db();
 
 export async function closeAuthDatabase() {
