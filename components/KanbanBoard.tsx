@@ -16,7 +16,16 @@ import {
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { Edit2, Loader2, MoreVertical, Pen, Plus, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Edit2,
+  Loader2,
+  MoreVertical,
+  Pen,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 import JobApplicationCard from "@/components/cards/JobApplicationCard";
@@ -210,6 +219,8 @@ function KanbanDroppableColumn({
   });
   const { over } = useDndContext();
 
+  const { columns, moveColumn } = useDashboard();
+
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
   const [removeDialogOpen, setRemoveDialogOpen] = useState<boolean>(false);
 
@@ -236,29 +247,49 @@ function KanbanDroppableColumn({
               <div>{Icon && <Icon className="size-4" />}</div>
               <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
             </div>
-            <DropdownMenu>
-              <Button
-                render={<DropdownMenuTrigger />}
-                variant={column.color ? `tinted-${column.color}` : "ghost"}
-                size="icon"
-              >
-                <MoreVertical className="size-4" />
-              </Button>
-              <DropdownMenuContent align="end" className="w-38 whitespace-nowrap">
-                <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
-                  <Edit2 className="size-4" />
-                  Edit column
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  variant="destructive"
-                  disabled={!!jobApplications.length}
-                  onClick={() => setRemoveDialogOpen(true)}
+            <div className="flex gap-4">
+              <div className="flex">
+                <Button
+                  variant={column.color ? `tinted-${column.color}` : "ghost"}
+                  size="icon"
+                  disabled={column.order <= 0}
+                  onClick={() => moveColumn(column._id, column.order, column.order - 1)}
                 >
-                  <Trash2 className="size-4" />
-                  Remove column
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <ArrowLeft />
+                </Button>
+                <Button
+                  variant={column.color ? `tinted-${column.color}` : "ghost"}
+                  size="icon"
+                  disabled={column.order >= columns.length - 1}
+                  onClick={() => moveColumn(column._id, column.order, column.order + 1)}
+                >
+                  <ArrowRight />
+                </Button>
+              </div>
+              <DropdownMenu>
+                <Button
+                  render={<DropdownMenuTrigger />}
+                  variant={column.color ? `tinted-${column.color}` : "ghost"}
+                  size="icon"
+                >
+                  <MoreVertical className="size-4" />
+                </Button>
+                <DropdownMenuContent align="end" className="w-38 whitespace-nowrap">
+                  <DropdownMenuItem onClick={() => setEditDialogOpen(true)}>
+                    <Edit2 className="size-4" />
+                    Edit column
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    variant="destructive"
+                    disabled={!!jobApplications.length}
+                    onClick={() => setRemoveDialogOpen(true)}
+                  >
+                    <Trash2 className="size-4" />
+                    Remove column
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </CardHeader>
         {!!jobApplications.length && (

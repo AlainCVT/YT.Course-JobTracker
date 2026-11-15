@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 
+import { updateColumn } from "@/lib/actions/column";
 import { updateJobApplication } from "@/lib/actions/job-applications.action";
 import type { PopulatedBoardType, PopulatedColumnType } from "@/lib/models";
 
@@ -45,6 +46,66 @@ export function DashboardProvider({
 
 export const useDashboard = () => {
   const context = useContext(DashboardContext);
+
+  const moveColumn = async (columnId: string, prevOrder: number, newOrder: number) => {
+    // No movement
+    if (prevOrder === newOrder) {
+      return;
+    }
+
+    context.setColumns((columns) => {
+      // No columns
+      if (!columns.length) {
+        return [];
+      }
+
+      return columns
+        .map((column) => {
+          // Current column found
+          if (column._id === columnId) {
+            return {
+              ...column,
+              order: newOrder,
+            };
+          }
+
+          // Other columns
+          const currentOrder = column.order;
+          const isColumnBetweenRange =
+            (currentOrder >= prevOrder && currentOrder <= newOrder) ||
+            (currentOrder <= prevOrder && currentOrder >= newOrder);
+
+          if (isColumnBetweenRange) {
+            // Columns in range must shift down
+            if (prevOrder > newOrder) {
+              return {
+                ...column,
+                order: currentOrder + 1,
+              };
+            }
+
+            // Columns in range must shift up
+            if (prevOrder < newOrder) {
+              return {
+                ...column,
+                order: currentOrder - 1,
+              };
+            }
+          }
+
+          return column;
+        })
+        .toSorted((a, b) => a.order - b.order);
+    });
+
+    try {
+      await updateColumn(columnId, {
+        order: newOrder,
+      });
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
 
   const moveJobApplication = async (
     jobApplicationId: string,
@@ -205,6 +266,7 @@ export const useDashboard = () => {
 
   return {
     ...context,
+    moveColumn,
     moveJobApplication,
   };
 };
