@@ -124,10 +124,18 @@ export default function AuthForm({ type }: AuthFormProps) {
             {currentAuthText.description}
           </CardDescription>
         </CardHeader>
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
+        <form
+          ref={formRef}
+          aria-label={currentAuthText.title}
+          onSubmit={handleSubmit}
+          className="space-y-8"
+        >
           <CardContent className="space-y-4">
             {error && (
-              <div className="rounded-md bg-destructive/10 px-2 py-1 text-sm text-destructive">
+              <div
+                role="alert"
+                className="rounded-md bg-destructive/10 px-2 py-1 text-sm text-destructive"
+              >
                 {error}
               </div>
             )}

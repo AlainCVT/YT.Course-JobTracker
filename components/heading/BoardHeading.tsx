@@ -27,7 +27,7 @@ export default function BoardHeading({ className }: BoardHeadingProps) {
             <UpdateBoardDialog
               payload={board}
               trigger={
-                <Button className="mx-2" variant="link" size="icon-sm">
+                <Button aria-label="Edit board" className="mx-2" variant="link" size="icon-sm">
                   <Pen />
                 </Button>
               }

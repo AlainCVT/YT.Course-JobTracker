@@ -50,6 +50,7 @@ export default function Navbar() {
               <DropdownMenu>
                 <Button
                   render={<DropdownMenuTrigger />}
+                  aria-label="Open account menu"
                   variant="ghost"
                   size="icon"
                   className="rounded-full"

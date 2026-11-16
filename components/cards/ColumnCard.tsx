@@ -58,7 +58,9 @@ export default forwardRef<
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div>{Icon && <Icon className="size-4" />}</div>
-            <CardTitle className="text-base font-semibold">{column.name}</CardTitle>
+            <CardTitle role="heading" aria-level={2} className="text-base font-semibold">
+              {column.name}
+            </CardTitle>
           </div>
           <div className="flex gap-4">
             <div className="flex">
