@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## End-to-end tests
+
+Install the Playwright browser once, then run the end-to-end suite:
+
+```bash
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
+
+The Playwright configuration starts the app with `pnpm dev` when it is not already running. The app's `.env.local` must contain a working `MONGODB_URI`. The test generates a unique email address for each run and reuses the same test credentials for sign-up and sign-in.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
