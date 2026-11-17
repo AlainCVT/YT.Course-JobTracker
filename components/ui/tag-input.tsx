@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { getStringColor } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 
 function TagInput({
@@ -67,7 +68,7 @@ function TagInput({
       {tags.map((tag) => (
         <Badge
           key={tag}
-          variant="secondary"
+          variant={`tinted-${getStringColor(tag)}` || "primary"}
           className="gap-1 pr-1 dark:bg-muted-foreground dark:text-muted"
         >
           {tag}
@@ -75,7 +76,7 @@ function TagInput({
             type="button"
             onClick={() => removeTag(tag)}
             aria-label={`Remove: ${tag}`}
-            className="rounded-full p-0.5 hover:bg-muted-foreground/20"
+            className="rounded-full p-0.5 hover:bg-current/20 focus-visible:outline-current/50"
           >
             <X className="size-3" />
           </button>

@@ -1,0 +1,8 @@
+packages:
+  - .
+
+allowBuilds:
+  esbuild: set this to true or false
+
+overrides:
+  mongodb: 7.9.0

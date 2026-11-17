@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import { Loader2 } from "lucide-react";
 import {
   type Dispatch,
@@ -9,6 +10,7 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Rating } from "@/components/ui/rating";
 import { TagInput } from "@/components/ui/tag-input";
 import { Textarea } from "@/components/ui/textarea";
 import { updateJobApplication } from "@/lib/actions/job-applications.action";
@@ -96,6 +99,8 @@ function UpdateJobApplicationContent({
     const salary = formData.getAll("salary").map((value) => Number(value));
     const url = formData.get("url")?.toString() ?? "";
     const tags = formData.getAll("tags").map((value) => value.toString());
+    const appliedAt = formData.get("appliedAt")?.toString() ?? "";
+    const priority = Number(formData.get("priority")?.toString() ?? "");
     const description = formData.get("description")?.toString() ?? "";
     const notes = formData.get("notes")?.toString() ?? "";
 
@@ -107,6 +112,10 @@ function UpdateJobApplicationContent({
         salary,
         url,
         tags,
+        ...(appliedAt && {
+          appliedAt: parseISO(appliedAt),
+        }),
+        priority: Math.max(0, Math.min(5, Number(priority))),
         description,
         notes,
       });
@@ -183,6 +192,25 @@ function UpdateJobApplicationContent({
             <FieldLabel htmlFor="tags">Tags</FieldLabel>
             <TagInput id="tags" name="tags" defaultValue={payload.tags ?? []} />
           </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field>
+              <FieldLabel htmlFor="appliedAt">Applied at </FieldLabel>
+              <DatePicker
+                id="appliedAt"
+                name="appliedAt"
+                defaultValue={payload.appliedAt ? new Date(payload.appliedAt) : undefined}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="priority">Priority</FieldLabel>
+              <Rating
+                id="priority"
+                className="my-auto"
+                name="priority"
+                defaultValue={payload.priority || 0}
+              />
+            </Field>
+          </div>
           <Field>
             <FieldLabel htmlFor="description">Description</FieldLabel>
             <Textarea

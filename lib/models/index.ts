@@ -20,8 +20,10 @@ export interface MongoSchemaBase {
   _id: string;
 }
 
-export type PopulatedJobApplicationType = MongoSchemaBase & JobApplicationTypeDTO;
-
+export type PopulatedJobApplicationType = MongoSchemaBase &
+  Omit<JobApplicationTypeDTO, "appliedAt"> & {
+    appliedAt?: Date;
+  };
 export type PopulatedColumnType = MongoSchemaBase &
   Omit<ColumnTypeDTO, "jobApplications"> & {
     jobApplications: PopulatedJobApplicationType[];

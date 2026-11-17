@@ -29,6 +29,13 @@ const JobApplicationSchema = new Schema(
         type: String,
       },
     ],
+    appliedAt: {
+      type: Date,
+    },
+    priority: {
+      type: Number,
+      enum: [0, 1, 2, 3, 4, 5],
+    },
     description: {
       type: String,
     },

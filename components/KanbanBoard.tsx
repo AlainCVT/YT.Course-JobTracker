@@ -236,7 +236,11 @@ function KanbanSortableJobApplicationCard({
         transition,
         opacity: isDragging ? 0.5 : 1,
       }}
-      onMouseDown={() => setIsMouseDown(true)}
+      onMouseDown={(event) => {
+        if (event.target instanceof Node && event.currentTarget.contains(event.target)) {
+          setIsMouseDown(true);
+        }
+      }}
       onMouseUp={() => setIsMouseDown(false)}
       onMouseEnter={() => setIsMouseDown(false)}
       onMouseLeave={() => setIsMouseDown(false)}

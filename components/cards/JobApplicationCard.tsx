@@ -1,10 +1,13 @@
+import clsx from "clsx";
 import {
   ArrowDown,
   ArrowUp,
+  Clock,
   Edit2,
   ExternalLink,
   MapPin,
   MoreVertical,
+  Star,
   Trash2,
 } from "lucide-react";
 import {
@@ -123,13 +126,26 @@ export default forwardRef<
                   <MapPin className="inline size-4" /> {jobApplication.location}
                 </div>
               )}
+              <div className="my-1 flex gap-1">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={`star-${index + 1}`}
+                    className={clsx(
+                      "size-4 transition-colors duration-100",
+                      index + 1 <= Number(jobApplication.priority)
+                        ? "fill-current text-yellow-400 dark:text-yellow-600"
+                        : "fill-transparent text-muted-foreground",
+                    )}
+                  />
+                ))}
+              </div>
             </div>
             {jobApplication.description && (
               <p className="line-clamp-2 text-xs text-muted-foreground">
                 {jobApplication.description}
               </p>
             )}
-            {jobApplication.tags?.length && (
+            {!!jobApplication.tags?.length && (
               <div className="flex flex-wrap gap-1">
                 {jobApplication.tags.map((tag, index) => (
                   <Badge
