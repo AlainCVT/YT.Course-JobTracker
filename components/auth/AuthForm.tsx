@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -170,7 +171,8 @@ export default function AuthForm({ type }: AuthFormProps) {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? <Loader2 className="animate-spin" /> : currentAuthText.title}
+              <span className={clsx(loading && "opacity-0")}>{currentAuthText.title}</span>
+              <Loader2 className={clsx("absolute m-auto animate-spin", !loading && "opacity-0")} />
             </Button>
             <div>
               <span className="text-center text-sm text-muted-foreground">

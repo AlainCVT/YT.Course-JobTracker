@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { parseISO } from "date-fns";
 import { Loader2 } from "lucide-react";
 import {
@@ -230,7 +231,8 @@ function UpdateJobApplicationContent({
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Edit job application"}
+            <span className={clsx(loading && "opacity-0")}>Edit job application</span>
+            <Loader2 className={clsx("absolute m-auto animate-spin", !loading && "opacity-0")} />
           </Button>
         </DialogFooter>
       </form>

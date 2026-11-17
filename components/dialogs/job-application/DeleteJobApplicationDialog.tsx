@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 import {
   type Dispatch,
@@ -95,7 +96,8 @@ function DeleteJobApplicationContent({
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Remove job application"}
+            <span className={clsx(loading && "opacity-0")}>Remove job application</span>
+            <Loader2 className={clsx("absolute m-auto animate-spin", !loading && "opacity-0")} />
           </Button>
         </DialogFooter>
       </form>

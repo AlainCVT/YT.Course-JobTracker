@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 import {
   type Dispatch,
@@ -270,7 +271,8 @@ function UpdateContentContent({ id, payload, close }: UpdateColumnProps & { clos
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Edit column"}
+            <span className={clsx(loading && "opacity-0")}>Edit column</span>
+            <Loader2 className={clsx("absolute m-auto animate-spin", !loading && "opacity-0")} />
           </Button>
         </DialogFooter>
       </form>

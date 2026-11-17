@@ -66,11 +66,7 @@ function TagInput({
       )}
     >
       {tags.map((tag) => (
-        <Badge
-          key={tag}
-          variant={`tinted-${getStringColor(tag)}` || "primary"}
-          className="gap-1 pr-1 dark:bg-muted-foreground dark:text-muted"
-        >
+        <Badge key={tag} variant={`tinted-${getStringColor(tag)}`} className="gap-1 pr-1">
           {tag}
           <button
             type="button"

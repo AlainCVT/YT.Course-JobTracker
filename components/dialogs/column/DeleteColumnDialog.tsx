@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 import {
   type Dispatch,
@@ -89,7 +90,8 @@ function DeleteColumnContent({ id, close }: DeleteColumnProps & { close: () => v
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : "Remove column"}
+            <span className={clsx(loading && "opacity-0")}>Remove column</span>
+            <Loader2 className={clsx("absolute m-auto animate-spin", !loading && "opacity-0")} />
           </Button>
         </DialogFooter>
       </form>
